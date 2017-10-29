@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_receita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titulo Receita"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:fontFamily="@font/typo_bold"/>
+
+            <TextView
+                android:id="@+id/txrendiment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rendimento"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:fontFamily="@font/typo_light"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
