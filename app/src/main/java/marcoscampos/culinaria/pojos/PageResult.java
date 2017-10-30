@@ -30,9 +30,9 @@ public class PageResult implements Parcelable {
     private int id;
     @SerializedName("name")
     private String name;
-    @SerializedName("ingredientsList")
+    @SerializedName("ingredients")
     private ArrayList<Ingredient> ingredientsList;
-    @SerializedName("stepsList")
+    @SerializedName("steps")
     private ArrayList<Steps> stepsList;
     @SerializedName("servings")
     private int servings;

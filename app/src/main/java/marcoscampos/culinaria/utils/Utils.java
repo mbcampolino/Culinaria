@@ -7,10 +7,6 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,9 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
-import marcoscampos.culinaria.pojos.Steps;
 
 /**
  * Created by Marcos on 29/10/2017.
@@ -37,8 +31,8 @@ public class Utils {
         HttpURLConnection conn;
         BufferedReader rd;
         String line;
-        StringBuilder result = new StringBuilder();
 
+        StringBuilder result = new StringBuilder();
         ArrayList<PageResult> recipe = new ArrayList<>();
 
         try {

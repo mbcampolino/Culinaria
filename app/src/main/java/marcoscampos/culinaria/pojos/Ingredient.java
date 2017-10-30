@@ -20,14 +20,14 @@ public class Ingredient implements Parcelable {
     };
 
     @SerializedName("quantity")
-    private int quantity;
+    private String quantity;
     @SerializedName("measure")
     private String measure;
     @SerializedName("ingredient")
     private String ingredient;
 
     protected Ingredient(Parcel in) {
-        quantity = in.readInt();
+        quantity = in.readString();
         measure = in.readString();
         ingredient = in.readString();
     }
@@ -39,12 +39,12 @@ public class Ingredient implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(quantity);
+        parcel.writeString(quantity);
         parcel.writeString(measure);
         parcel.writeString(ingredient);
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
