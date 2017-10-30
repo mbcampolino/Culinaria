@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Marcos on 29/10/2017.
@@ -84,6 +85,6 @@ public class PageResult implements Parcelable {
     }
 
     public String getVideoThumbnail() {
-        return stepsList.get(0).getThumbnailURL();
+        return stepsList.get(0).getVideoURL();
     }
 }

@@ -1,17 +1,25 @@
 package marcoscampos.culinaria.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.pojos.PageResult;
+import marcoscampos.culinaria.utils.ImageFilePath;
 
 /**
  * Created by Marcos on 29/10/2017.
@@ -51,10 +59,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             PageResult recipe = pagerAdapter.get(position);
             item.title.setText(recipe.getName());
             item.serving.setText(String.format("Serve %s pessoas ", recipe.getServings()));
-            //Glide.with(context).load(Uri.fromFile(new File(recipe.getVideoThumbnail()))).into(item.imageMovie);
-            //Glide.with(context).load("").asBitmap().into(imageView);
-            //Bitmap thumb = ThumbnailUtils.createVideoThumbnail(recipe.getVideoThumbnail(), MediaStore.Images.Thumbnails.MINI_KIND);
-            //item.imageMovie.setImageBitmap(thumb);
         }
     }
 
