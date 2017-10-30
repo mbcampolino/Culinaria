@@ -19,4 +19,24 @@ public class Steps {
         this.videoURL = videoURL;
         this.thumbnailURL = thumbnailURL;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
 }

@@ -47,4 +47,8 @@ public class PageResult {
     public String getImage() {
         return image;
     }
+
+    public String getVideoThumbnail() {
+        return stepsList.get(0).getThumbnailURL();
+    }
 }

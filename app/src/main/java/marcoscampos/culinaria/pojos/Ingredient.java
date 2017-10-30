@@ -15,4 +15,16 @@ public class Ingredient {
         this.measure = measure;
         this.ingredient = ingredient;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public String getIngredient() {
+        return ingredient;
+    }
 }

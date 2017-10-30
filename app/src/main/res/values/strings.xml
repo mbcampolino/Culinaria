@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Culinaire</string>
+    <string name="houveerro">Houve um erro, deseja tentar novamente?</string>
+    <string name="sim">Sim!</string>
 </resources>
