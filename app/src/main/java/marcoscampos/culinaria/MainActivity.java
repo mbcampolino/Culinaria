@@ -14,11 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void loadRecipes() {
 
-        new AsyncTask<String, String, List<PageResult>>() {
+        new AsyncTask<String, String, ArrayList<PageResult>>() {
 
             @Override
             protected void onPreExecute() {
@@ -85,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
 
             @Override
-            protected List<PageResult> doInBackground(String... params) {
+            protected ArrayList<PageResult> doInBackground(String... params) {
                 return Utils.getPageResult();
             }
 
             @Override
-            protected void onPostExecute(List<PageResult> list) {
+            protected void onPostExecute(ArrayList<PageResult> list) {
                 super.onPostExecute(list);
 
                 if(refreshLayout.isRefreshing()){
