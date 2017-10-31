@@ -1,12 +1,7 @@
 package marcoscampos.culinaria.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
 import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.pojos.PageResult;
-import marcoscampos.culinaria.utils.ImageFilePath;
+import marcoscampos.culinaria.utils.OnRecyclerClick;
+import marcoscampos.culinaria.utils.Utils;
 
 /**
  * Created by Marcos on 29/10/2017.
@@ -29,10 +28,12 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<PageResult> pagerAdapter;
     Context context;
+    OnRecyclerClick recyclerClick;
 
-    public MainAdapter(List<PageResult> pagerAdapter, Context c) {
+    public MainAdapter(List<PageResult> pagerAdapter, Context c,OnRecyclerClick recyclerClick) {
         this.pagerAdapter = pagerAdapter;
         this.context = c;
+        this.recyclerClick = recyclerClick;
         notifyDataSetChanged();
     }
 
@@ -59,6 +60,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             PageResult recipe = pagerAdapter.get(position);
             item.title.setText(recipe.getName());
             item.serving.setText(String.format("Serve %s pessoas ", recipe.getServings()));
+            Glide.with(context).load(recipe.getVideoThumbnail()).thumbnail(0.1f).into(item.imageMovie);
         }
     }
 
@@ -82,7 +84,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-
+            recyclerClick.onItemClick(pagerAdapter.get(getAdapterPosition()));
         }
     }
 

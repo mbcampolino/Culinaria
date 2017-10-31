@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -20,10 +21,11 @@ import java.util.List;
 
 import marcoscampos.culinaria.adapters.MainAdapter;
 import marcoscampos.culinaria.pojos.PageResult;
+import marcoscampos.culinaria.utils.OnRecyclerClick;
 import marcoscampos.culinaria.utils.Utils;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener  {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, OnRecyclerClick {
 
     private static final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void prepareRecyclerView() {
         recyclerView.setHasFixedSize(true);
         GridLayoutManager grid = new GridLayoutManager(this, 1);
-        adapter = new MainAdapter(result, this);
+        adapter = new MainAdapter(result, this,this);
         recyclerView.setLayoutManager(grid);
         recyclerView.setAdapter(adapter);
         refreshLayout.setOnRefreshListener(this);
@@ -111,5 +113,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
         adapter.clear();
         loadRecipes();
+    }
+
+    @Override
+    public void onItemClick(PageResult item) {
+        Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
     }
 }
