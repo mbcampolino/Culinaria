@@ -1,6 +1,6 @@
 package marcoscampos.culinaria;
 
-import android.content.res.Configuration;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -21,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import marcoscampos.culinaria.adapters.MainAdapter;
+import marcoscampos.culinaria.interfaces.OnRecyclerClick;
 import marcoscampos.culinaria.pojos.PageResult;
-import marcoscampos.culinaria.utils.OnRecyclerClick;
 import marcoscampos.culinaria.utils.Utils;
 
 @EActivity(R.layout.activity_main)
@@ -118,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onItemClick(PageResult item) {
-        Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, Details_.class);
+        intent.putExtra("reciper",item);
+        startActivity(intent);
     }
 }

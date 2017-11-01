@@ -7,25 +7,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Marcos on 29/10/2017.
  */
 
 public class PageResult implements Parcelable {
-
-    public static final Creator<PageResult> CREATOR = new Creator<PageResult>() {
-        @Override
-        public PageResult createFromParcel(Parcel in) {
-            return new PageResult(in);
-        }
-
-        @Override
-        public PageResult[] newArray(int size) {
-            return new PageResult[size];
-        }
-    };
 
     @SerializedName("id")
     private int id;
@@ -43,22 +30,23 @@ public class PageResult implements Parcelable {
     protected PageResult(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        ingredientsList = in.createTypedArrayList(Ingredient.CREATOR);
+        stepsList = in.createTypedArrayList(Steps.CREATOR);
         servings = in.readInt();
         image = in.readString();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+    public static final Creator<PageResult> CREATOR = new Creator<PageResult>() {
+        @Override
+        public PageResult createFromParcel(Parcel in) {
+            return new PageResult(in);
+        }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeInt(servings);
-        parcel.writeString(image);
-    }
+        @Override
+        public PageResult[] newArray(int size) {
+            return new PageResult[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -86,5 +74,20 @@ public class PageResult implements Parcelable {
 
     public String getVideoThumbnail() {
         return stepsList.get(0).getVideoURL();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeTypedList(ingredientsList);
+        parcel.writeTypedList(stepsList);
+        parcel.writeInt(servings);
+        parcel.writeString(image);
     }
 }

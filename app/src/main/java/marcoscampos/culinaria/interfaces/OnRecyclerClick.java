@@ -1,4 +1,4 @@
-package marcoscampos.culinaria.utils;
+package marcoscampos.culinaria.interfaces;
 
 import marcoscampos.culinaria.pojos.PageResult;
 

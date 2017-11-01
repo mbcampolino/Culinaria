@@ -2,7 +2,6 @@ package marcoscampos.culinaria.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
 import marcoscampos.culinaria.R;
+import marcoscampos.culinaria.interfaces.OnRecyclerClick;
 import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
-import marcoscampos.culinaria.utils.OnRecyclerClick;
 import marcoscampos.culinaria.utils.Utils;
 
 /**

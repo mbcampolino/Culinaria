@@ -26,8 +26,6 @@ import marcoscampos.culinaria.pojos.PageResult;
 
 public class Utils {
 
-    private static final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-
     public static ArrayList<PageResult> getPageResult() {
         URL url;
         HttpURLConnection conn;
@@ -38,7 +36,7 @@ public class Utils {
         ArrayList<PageResult> recipe = new ArrayList<>();
 
         try {
-            url = new URL(URL);
+            url = new URL(Constants.URL);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
