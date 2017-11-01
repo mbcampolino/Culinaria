@@ -1,5 +1,6 @@
 package marcoscampos.culinaria;
 
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     CoordinatorLayout coordinatorLayout;
     @ViewById(R.id.refresh)
     SwipeRefreshLayout refreshLayout;
-
+    GridLayoutManager grid;
     List<PageResult> result = new ArrayList<>();
     MainAdapter adapter;
 
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void prepareRecyclerView() {
         recyclerView.setHasFixedSize(true);
-        GridLayoutManager grid = new GridLayoutManager(this, 1);
+        grid = new GridLayoutManager(this, 1);
         adapter = new MainAdapter(result, this,this);
         recyclerView.setLayoutManager(grid);
         recyclerView.setAdapter(adapter);
