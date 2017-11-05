@@ -1,5 +1,6 @@
 package marcoscampos.culinaria;
 
+import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,13 +28,12 @@ import marcoscampos.culinaria.interfaces.OnIngredientClick;
 import marcoscampos.culinaria.interfaces.OnStepClick;
 import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
-import marcoscampos.culinaria.pojos.Steps;
 
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
 import static marcoscampos.culinaria.utils.Utils.noTitleBar;
 
 @EActivity(R.layout.details)
-public class Details extends AppCompatActivity implements OnIngredientClick, OnStepClick {
+public class DetailsActivity extends AppCompatActivity implements OnIngredientClick, OnStepClick {
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
@@ -131,7 +131,11 @@ public class Details extends AppCompatActivity implements OnIngredientClick, OnS
     }
 
     @Override
-    public void onStepClick(Steps item) {
+    public void onStepClick(int position) {
         /// abre tela video com decricao
+        Intent intent = new Intent(this, StepWithVideoActivity_.class);
+        intent.putExtra("position", position);
+        intent.putExtra("reciper", reciper);
+        startActivity(intent);
     }
 }

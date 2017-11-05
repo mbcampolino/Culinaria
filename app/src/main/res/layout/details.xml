@@ -88,7 +88,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/colorPrimary">
 
             <TextView
                 android:layout_width="match_parent"
@@ -97,7 +98,7 @@
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/typo_bold"
                 android:gravity="left"
-                android:text="Ingredients"
+                android:text="@string/ingredients"
                 android:textSize="32sp" />
 
             <View
@@ -128,7 +129,7 @@
                 android:layout_marginTop="36dp"
                 android:fontFamily="@font/typo_bold"
                 android:gravity="left"
-                android:text="Step by Step"
+                android:text="@string/step_by_step"
                 android:textSize="32sp"/>
 
             <View
@@ -145,11 +146,8 @@
 
         </LinearLayout>
 
-
         </LinearLayout>
 
-
     </android.support.v4.widget.NestedScrollView>
-
 
 </android.support.design.widget.CoordinatorLayout>

@@ -44,7 +44,12 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof ItemHolder) {
             ItemHolder item = (ItemHolder) holder;
             Steps recipe = steps.get(position);
-            item.textStep.setText(String.format("Step %s", recipe.getId() + 1));
+            if (position !=0 ) {
+                item.textStep.setText(String.format("Step %s", recipe.getId()));
+            } else {
+                item.textStep.setText("Intro");
+            }
+
             if (!recipe.getShortDescription().isEmpty()) {
                 item.textShortDescription.setText(recipe.getShortDescription());
             } else if (!recipe.getDescription().isEmpty()) {
@@ -82,7 +87,7 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            recyclerClick.onStepClick(steps.get(getAdapterPosition()));
+            recyclerClick.onStepClick(getAdapterPosition());
         }
     }
 

@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Details_"></activity>
+        <activity android:name=".DetailsActivity_"></activity>
+        <activity android:name=".StepWithVideoActivity_"></activity>
     </application>
 
 </manifest>

@@ -15,8 +15,6 @@ import java.util.List;
 import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.interfaces.OnRecyclerClick;
 import marcoscampos.culinaria.pojos.PageResult;
-import marcoscampos.culinaria.pojos.Steps;
-import marcoscampos.culinaria.utils.Utils;
 
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
 

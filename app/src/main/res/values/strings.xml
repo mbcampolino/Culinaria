@@ -2,4 +2,9 @@
     <string name="app_name">Culinaire</string>
     <string name="houveerro">Houve um erro, deseja tentar novamente?</string>
     <string name="sim">Sim!</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="step_by_step">Step by Step</string>
+    <string name="instructions">Instructions</string>
+
+
 </resources>
