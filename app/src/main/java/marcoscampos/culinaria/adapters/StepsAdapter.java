@@ -54,8 +54,10 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             if (!recipe.getThumbnailURL().isEmpty()) {
                 Glide.with(context).load(recipe.getThumbnailURL()).thumbnail(0.1f).into(item.imageStep);
-            } else {
+            } else if (!recipe.getVideoURL().isEmpty()) {
                 Glide.with(context).load(recipe.getVideoURL()).thumbnail(0.1f).into(item.imageStep);
+            } else {
+                Glide.with(context).load(R.drawable.recipeplaceholder).thumbnail(0.1f).into(item.imageStep);
             }
         }
     }

@@ -1,10 +1,13 @@
 package marcoscampos.culinaria;
 
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
@@ -37,6 +40,8 @@ public class Details extends AppCompatActivity implements OnIngredientClick, OnS
     @Extra
     PageResult reciper;
 
+    boolean favoriteRecipe;
+
     @AfterViews
     public void afterViews() {
         if (reciper != null) {
@@ -65,6 +70,31 @@ public class Details extends AppCompatActivity implements OnIngredientClick, OnS
         recyclerViewStep.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewStep.setAdapter(adapterSteps);
         recyclerViewStep.setNestedScrollingEnabled(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.likert_button_menu) {
+            favoriteRecipe(item);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void favoriteRecipe(MenuItem item) {
+        // fake
+        favoriteRecipe = !favoriteRecipe;
+        if (favoriteRecipe) {
+            item.setIcon(ContextCompat.getDrawable(this, R.drawable.heart));
+        } else {
+            item.setIcon(ContextCompat.getDrawable(this, R.drawable.heart_outline));
+        }
     }
 
     @Override
