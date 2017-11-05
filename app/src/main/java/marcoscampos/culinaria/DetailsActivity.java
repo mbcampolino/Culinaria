@@ -75,7 +75,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         titleToolbar.setText(reciperTitle);
         titleCollapsed.setText(reciperTitle);
-        noTitleBar(titleToolbar,appBarLayout);
+        noTitleBar(titleToolbar, appBarLayout);
         Glide.with(this).load(getThumbnailFromRecipe(reciper)).thumbnail(0.1f).into(imageTop);
     }
 

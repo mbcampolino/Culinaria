@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <FrameLayout
@@ -13,8 +13,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_collapseMode="pin">
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         </android.support.v7.widget.Toolbar>
 
@@ -22,12 +22,11 @@
             android:id="@+id/title_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="@font/font_toolbar"
             android:gravity="center"
-            android:textSize="32sp"
-            android:layout_gravity="center"
             android:padding="8dp"
-            />
+            android:textSize="32sp" />
     </FrameLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -41,18 +40,18 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/main_media_frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#000000"
-                android:id="@+id/main_media_frame">
+                android:background="#000000">
 
                 <com.google.android.exoplayer2.ui.SimpleExoPlayerView
                     android:id="@+id/video_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:hide_on_touch="true"
                     android:minHeight="220dp"
-                    app:controller_layout_id="@layout/custom_playback"/>
+                    app:controller_layout_id="@layout/custom_playback"
+                    app:hide_on_touch="true" />
 
             </FrameLayout>
 
@@ -64,14 +63,14 @@
                 android:fontFamily="@font/typo_bold"
                 android:gravity="left"
                 android:text="@string/instructions"
-                android:textSize="32sp"/>
+                android:textSize="32sp" />
 
             <View
                 android:layout_width="250dp"
                 android:layout_height="4dp"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
-                android:background="@color/colorPrimaryDark"/>
+                android:background="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/tx_instructions"
@@ -82,7 +81,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/typo_regular"
                 android:gravity="left"
-                android:textSize="22sp"/>
+                android:textSize="22sp" />
 
         </LinearLayout>
 
@@ -95,19 +94,19 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PREVIEW"
             android:layout_weight="1"
-            android:id="@+id/btn_preview"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:text="PREVIEW" />
 
         <Button
+            android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NEXT"
             android:layout_weight="1"
-            android:id="@+id/btn_next"/>
+            android:text="NEXT" />
 
     </LinearLayout>
 

@@ -1,21 +1,15 @@
 package marcoscampos.culinaria;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -41,11 +35,8 @@ import org.androidannotations.annotations.ViewById;
 import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
 
-import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
-import static marcoscampos.culinaria.utils.Utils.noTitleBar;
-
 @EActivity(R.layout.video_view_activity)
-public class StepWithVideoActivity extends AppCompatActivity  {
+public class StepWithVideoActivity extends AppCompatActivity {
 
     @Extra
     int position;
@@ -65,13 +56,11 @@ public class StepWithVideoActivity extends AppCompatActivity  {
     TextView titleToolbar;
 
     SimpleExoPlayer exoPlayerFactory;
-
-    private DataSource.Factory mediaDataSourceFactory;
-    private BandwidthMeter bandwidthMeter;
-
     int maxSteps;
     Dialog mFullScreenDialog;
     boolean mExoPlayerFullscreen;
+    private DataSource.Factory mediaDataSourceFactory;
+    private BandwidthMeter bandwidthMeter;
 
     @AfterViews
     public void afterViews() {
@@ -81,6 +70,7 @@ public class StepWithVideoActivity extends AppCompatActivity  {
         updateViews(position);
         initFullscreenDialog();
     }
+
     private void prepareToolbar(String reciperTitle) {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,7 +89,7 @@ public class StepWithVideoActivity extends AppCompatActivity  {
             }
         };
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             openFullscreenDialog();
         }
     }
@@ -122,17 +112,17 @@ public class StepWithVideoActivity extends AppCompatActivity  {
 
 
     private void updateViews(int position) {
-        if(position != 0) {
-            titleToolbar.setText(String.format("Step %s",position));
+        if (position != 0) {
+            titleToolbar.setText(String.format("Step %s", position));
         } else {
             titleToolbar.setText("Intro");
         }
 
-        btnNext.setEnabled(position!=maxSteps-1);
-        btnPreviews.setEnabled(position!=0);
+        btnNext.setEnabled(position != maxSteps - 1);
+        btnPreviews.setEnabled(position != 0);
         txInstructions.setText(reciper.getStepsList().get(position).getDescription());
         releasePlayer();
-        if(findStepInPosition(position)!=null) {
+        if (findStepInPosition(position) != null) {
             initializeVideo(findStepInPosition(position));
         } else {
             videoView.setVisibility(View.GONE);
@@ -144,24 +134,24 @@ public class StepWithVideoActivity extends AppCompatActivity  {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if(!mExoPlayerFullscreen){
+            if (!mExoPlayerFullscreen) {
                 openFullscreenDialog();
             }
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            if(mExoPlayerFullscreen){
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (mExoPlayerFullscreen) {
                 closeFullscreenDialog();
             }
         }
     }
 
-    @Click (R.id.btn_next)
+    @Click(R.id.btn_next)
     void next() {
-        updateViews(position+=1);
+        updateViews(position += 1);
     }
 
-    @Click (R.id.btn_preview)
+    @Click(R.id.btn_preview)
     void preview() {
-        updateViews(position-=1);
+        updateViews(position -= 1);
     }
 
     private void initializeVideo(Steps stepInPosition) {
@@ -187,7 +177,7 @@ public class StepWithVideoActivity extends AppCompatActivity  {
     }
 
     private Steps findStepInPosition(int position) {
-        if(!reciper.getStepsList().get(position).getVideoURL().isEmpty()) {
+        if (!reciper.getStepsList().get(position).getVideoURL().isEmpty()) {
             return reciper.getStepsList().get(position);
         } else {
             return null;
@@ -211,7 +201,7 @@ public class StepWithVideoActivity extends AppCompatActivity  {
     public void onResume() {
         super.onResume();
         if ((Util.SDK_INT <= 23 || exoPlayerFactory == null)) {
-            if(findStepInPosition(position)!=null) {
+            if (findStepInPosition(position) != null) {
                 initializeVideo(findStepInPosition(position));
             } else {
                 videoView.setVisibility(View.GONE);

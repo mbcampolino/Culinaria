@@ -44,7 +44,7 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof ItemHolder) {
             ItemHolder item = (ItemHolder) holder;
             Steps recipe = steps.get(position);
-            if (position !=0 ) {
+            if (position != 0) {
                 item.textStep.setText(String.format("Step %s", recipe.getId()));
             } else {
                 item.textStep.setText("Intro");

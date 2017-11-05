@@ -63,6 +63,36 @@ public class Utils {
         return null;
     }
 
+    public static String getThumbnailFromRecipe(PageResult recipe) {
+
+        if (!recipe.getImage().isEmpty()) { // priority 1
+            return recipe.getImage();
+        }
+
+        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 2 inverse because final image
+            if (!steps.getThumbnailURL().isEmpty())
+                return steps.getThumbnailURL();
+        }
+
+        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 3 inverse because final image
+            if (!steps.getVideoURL().isEmpty() && steps.getId() != 0)
+                return steps.getVideoURL();
+        }
+
+        return null;
+    }
+
+    public static void noTitleBar(final TextView titleCollapsed, AppBarLayout appBarLayout) {
+        titleCollapsed.setAlpha(0);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                float percentage = ((float) Math.abs(verticalOffset) / appBarLayout.getTotalScrollRange());
+                titleCollapsed.setAlpha(percentage);
+            }
+        });
+    }
+
     public static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
@@ -107,37 +137,6 @@ public class Utils {
                 }
             };
         }
-    }
-
-
-    public static String getThumbnailFromRecipe(PageResult recipe) {
-
-        if (!recipe.getImage().isEmpty()) { // priority 1
-            return recipe.getImage();
-        }
-
-        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 2 inverse because final image
-            if (!steps.getThumbnailURL().isEmpty())
-                return steps.getThumbnailURL();
-        }
-
-        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 3 inverse because final image
-            if (!steps.getVideoURL().isEmpty() && steps.getId() != 0)
-                return steps.getVideoURL();
-        }
-
-        return null;
-    }
-
-    public static void noTitleBar(final TextView titleCollapsed, AppBarLayout appBarLayout){
-        titleCollapsed.setAlpha(0);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
-                titleCollapsed.setAlpha(percentage);
-            }
-        });
     }
 
 }

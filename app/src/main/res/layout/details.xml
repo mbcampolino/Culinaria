@@ -15,12 +15,12 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
             android:fitsSystemWindows="true"
-            app:expandedTitleTextAppearance="@android:color/transparent">
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -30,23 +30,22 @@
                     android:id="@+id/image_collapsed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
                     android:fitsSystemWindows="true"
-                    app:layout_collapseMode="parallax"
-                    />
+                    android:scaleType="fitCenter"
+                    app:layout_collapseMode="parallax" />
 
                 <TextView
                     android:id="@+id/title_collapsed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:background="@color/colorPrimaryDark"
                     android:fontFamily="@font/font_toolbar"
                     android:gravity="center"
-                    android:textSize="32sp"
-                    android:layout_gravity="top"
-                    app:layout_collapseMode="pin"
-                    android:background="@color/colorPrimaryDark"
+                    android:padding="8dp"
                     android:textColor="@color/colorPrimary"
-                    android:padding="8dp"/>
+                    android:textSize="32sp"
+                    app:layout_collapseMode="pin" />
 
             </FrameLayout>
 
@@ -54,19 +53,19 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin" >
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                 <TextView
                     android:id="@+id/title_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="16dp"
                     android:fontFamily="@font/font_toolbar"
                     android:gravity="center"
-                    android:textSize="32sp"
-                    android:layout_gravity="center"
                     android:padding="8dp"
-                    android:layout_marginRight="16dp"/>
+                    android:textSize="32sp" />
 
             </android.support.v7.widget.Toolbar>
 
@@ -84,67 +83,67 @@
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="36dp"
-                android:fontFamily="@font/typo_bold"
-                android:gravity="left"
-                android:text="@string/ingredients"
-                android:textSize="32sp" />
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="250dp"
-                android:layout_height="4dp"
-                android:background="@color/colorPrimaryDark"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="36dp"
+                    android:fontFamily="@font/typo_bold"
+                    android:gravity="left"
+                    android:text="@string/ingredients"
+                    android:textSize="32sp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_main_ingredient"
+                <View
+                    android:layout_width="250dp"
+                    android:layout_height="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="@color/colorPrimaryDark" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_main_ingredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="36dp"
+                    android:fontFamily="@font/typo_bold"
+                    android:gravity="left"
+                    android:text="@string/step_by_step"
+                    android:textSize="32sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical"
-            android:background="@color/colorPrimary">
+                <View
+                    android:layout_width="250dp"
+                    android:layout_height="4dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="@color/colorPrimaryDark" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="36dp"
-                android:fontFamily="@font/typo_bold"
-                android:gravity="left"
-                android:text="@string/step_by_step"
-                android:textSize="32sp"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_main_step"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-            <View
-                android:layout_width="250dp"
-                android:layout_height="4dp"
-                android:background="@color/colorPrimaryDark"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_main_step"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
