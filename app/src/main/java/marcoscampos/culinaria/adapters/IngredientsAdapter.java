@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.interfaces.OnIngredientClick;
@@ -41,7 +42,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof ItemHolder) {
             ItemHolder item = (ItemHolder) holder;
             Ingredient recipe = ingredients.get(position);
-            item.title.setText(String.format("%s %s of the %s ", recipe.getQuantity(), recipe.getMeasure(), recipe.getIngredient()));
+            item.title.setText(String.format(Locale.US,"%s %s of the %s ", recipe.getQuantity(), recipe.getMeasure(), recipe.getIngredient()));
         }
     }
 

@@ -1,8 +1,11 @@
 package marcoscampos.culinaria.utils;
 
 import android.graphics.Rect;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,7 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.pojos.PageResult;
+import marcoscampos.culinaria.pojos.Steps;
 
 /**
  * Created by Marcos on 29/10/2017.
@@ -105,4 +110,36 @@ public class Utils {
             };
         }
     }
+
+
+    public static String getThumbnailFromRecipe(PageResult recipe) {
+
+        if (!recipe.getImage().isEmpty()) { // priority 1
+            return recipe.getImage();
+        }
+
+        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 2 inverse because final image
+            if (!steps.getThumbnailURL().isEmpty())
+                return steps.getThumbnailURL();
+        }
+
+        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 3 inverse because final image
+            if (!steps.getVideoURL().isEmpty() && steps.getId() != 0)
+                return steps.getVideoURL();
+        }
+
+        return null;
+    }
+
+    public static void noTitleBar(final TextView titleCollapsed, AppBarLayout appBarLayout){
+        titleCollapsed.setAlpha(0);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
+                titleCollapsed.setAlpha(percentage);
+            }
+        });
+    }
+
 }
