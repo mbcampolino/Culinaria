@@ -28,7 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     OnRecyclerClick recyclerClick;
 
-    public MainAdapter(List<PageResult> pagerAdapter, Context c,OnRecyclerClick recyclerClick) {
+    public MainAdapter(List<PageResult> pagerAdapter, Context c, OnRecyclerClick recyclerClick) {
         this.pagerAdapter = pagerAdapter;
         this.context = c;
         this.recyclerClick = recyclerClick;
@@ -64,16 +64,17 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private String getThumbnailFromRecipe(PageResult recipe) {
 
-        if(!recipe.getImage().isEmpty()) { // priority 1
-            return recipe.getImage(); }
+        if (!recipe.getImage().isEmpty()) { // priority 1
+            return recipe.getImage();
+        }
 
-        for(Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 2 inverse because final image
+        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 2 inverse because final image
             if (!steps.getThumbnailURL().isEmpty())
                 return steps.getThumbnailURL();
         }
 
-        for(Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 3 inverse because final image
-            if (!steps.getVideoURL().isEmpty() && steps.getId()!=0)
+        for (Steps steps : new Utils.Reversed<>(recipe.getStepsList())) { // priority 3 inverse because final image
+            if (!steps.getVideoURL().isEmpty() && steps.getId() != 0)
                 return steps.getVideoURL();
         }
 

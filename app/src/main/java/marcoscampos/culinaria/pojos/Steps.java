@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Marcos on 29/10/2017.
  */
 
-public class Steps implements Parcelable{
+public class Steps implements Parcelable {
 
     public static final Creator<Steps> CREATOR = new Creator<Steps>() {
         @Override

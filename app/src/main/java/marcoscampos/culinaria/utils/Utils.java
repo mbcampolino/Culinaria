@@ -46,7 +46,8 @@ public class Utils {
             rd.close();
 
             Gson gson = new Gson();
-            recipe.addAll(gson.<Collection<? extends PageResult>>fromJson(result.toString(),new TypeToken<List<PageResult>>(){}.getType()));
+            recipe.addAll(gson.<Collection<? extends PageResult>>fromJson(result.toString(), new TypeToken<List<PageResult>>() {
+            }.getType()));
             return recipe;
 
 
@@ -69,7 +70,7 @@ public class Utils {
         @Override
         public void getItemOffsets(Rect outRect, View view,
                                    RecyclerView parent, RecyclerView.State state) {
-            if(parent.getChildLayoutPosition(view) == 0){
+            if (parent.getChildLayoutPosition(view) == 0) {
                 outRect.top = space;
             }
 
@@ -90,9 +91,17 @@ public class Utils {
             final ListIterator<T> i = original.listIterator(original.size());
 
             return new Iterator<T>() {
-                public boolean hasNext() { return i.hasPrevious(); }
-                public T next() { return i.previous(); }
-                public void remove() { i.remove(); }
+                public boolean hasNext() {
+                    return i.hasPrevious();
+                }
+
+                public T next() {
+                    return i.previous();
+                }
+
+                public void remove() {
+                    i.remove();
+                }
             };
         }
     }

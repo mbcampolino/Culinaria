@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="6dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
-    >
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,19 +30,19 @@
                 android:id="@+id/txtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/typo_bold"
                 android:text="Titulo Receita"
-                android:textStyle="bold"
                 android:textSize="22sp"
-                android:fontFamily="@font/typo_bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txrendiment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/typo_light"
                 android:text="Rendimento"
-                android:textStyle="normal"
                 android:textSize="16sp"
-                android:fontFamily="@font/typo_light"/>
+                android:textStyle="normal" />
 
         </LinearLayout>
 

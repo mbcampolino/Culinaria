@@ -44,15 +44,15 @@ public class StepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof ItemHolder) {
             ItemHolder item = (ItemHolder) holder;
             Steps recipe = steps.get(position);
-            item.textStep.setText(String.format("Step %s",recipe.getId()+1));
-            if(!recipe.getShortDescription().isEmpty()) {
+            item.textStep.setText(String.format("Step %s", recipe.getId() + 1));
+            if (!recipe.getShortDescription().isEmpty()) {
                 item.textShortDescription.setText(recipe.getShortDescription());
-            } else if(!recipe.getDescription().isEmpty()) {
+            } else if (!recipe.getDescription().isEmpty()) {
                 item.textShortDescription.setText(recipe.getDescription());
             } else {
                 item.textShortDescription.setText("no description.");
             }
-            if(!recipe.getThumbnailURL().isEmpty()) {
+            if (!recipe.getThumbnailURL().isEmpty()) {
                 Glide.with(context).load(recipe.getThumbnailURL()).thumbnail(0.1f).into(item.imageStep);
             } else {
                 Glide.with(context).load(recipe.getVideoURL()).thumbnail(0.1f).into(item.imageStep);

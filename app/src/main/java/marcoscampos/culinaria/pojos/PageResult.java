@@ -14,6 +14,17 @@ import java.util.List;
 
 public class PageResult implements Parcelable {
 
+    public static final Creator<PageResult> CREATOR = new Creator<PageResult>() {
+        @Override
+        public PageResult createFromParcel(Parcel in) {
+            return new PageResult(in);
+        }
+
+        @Override
+        public PageResult[] newArray(int size) {
+            return new PageResult[size];
+        }
+    };
     @SerializedName("id")
     private int id;
     @SerializedName("name")
@@ -35,18 +46,6 @@ public class PageResult implements Parcelable {
         servings = in.readInt();
         image = in.readString();
     }
-
-    public static final Creator<PageResult> CREATOR = new Creator<PageResult>() {
-        @Override
-        public PageResult createFromParcel(Parcel in) {
-            return new PageResult(in);
-        }
-
-        @Override
-        public PageResult[] newArray(int size) {
-            return new PageResult[size];
-        }
-    };
 
     public int getId() {
         return id;

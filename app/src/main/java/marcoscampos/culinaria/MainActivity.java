@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void prepareRecyclerView() {
         recyclerView.setHasFixedSize(true);
         grid = new GridLayoutManager(this, 1);
-        adapter = new MainAdapter(result, this,this);
+        adapter = new MainAdapter(result, this, this);
         recyclerView.setLayoutManager(grid);
         recyclerView.setAdapter(adapter);
         refreshLayout.setOnRefreshListener(this);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                if(!refreshLayout.isRefreshing()){
+                if (!refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(true);
                 }
             }
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             protected void onPostExecute(ArrayList<PageResult> list) {
                 super.onPostExecute(list);
 
-                if(refreshLayout.isRefreshing()){
+                if (refreshLayout.isRefreshing()) {
                     refreshLayout.setRefreshing(false);
                 }
 
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onItemClick(PageResult item) {
         Intent intent = new Intent(this, Details_.class);
-        intent.putExtra("reciper",item);
+        intent.putExtra("reciper", item);
         startActivity(intent);
     }
 }

@@ -41,7 +41,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof ItemHolder) {
             ItemHolder item = (ItemHolder) holder;
             Ingredient recipe = ingredients.get(position);
-            item.title.setText(String.format("%s %s of the %s ",recipe.getQuantity(),recipe.getMeasure(),recipe.getIngredient()));
+            item.title.setText(String.format("%s %s of the %s ", recipe.getQuantity(), recipe.getMeasure(), recipe.getIngredient()));
         }
     }
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/coordinator">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
 
         </android.support.v7.widget.Toolbar>
 
@@ -27,52 +27,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:descendantFocusability="blocksDescendants"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ingredients"
-                android:gravity="left"
-                android:fontFamily="@font/typo_bold"
-                android:textSize="32sp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="36dp"
-                android:layout_marginBottom="16dp"
-                />
+                android:fontFamily="@font/typo_bold"
+                android:gravity="left"
+                android:text="Ingredients"
+                android:textSize="32sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_main_ingredient"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Step by Step"
-                android:gravity="left"
-                android:fontFamily="@font/typo_bold"
-                android:textSize="32sp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="36dp"
-                android:layout_marginBottom="16dp"
-                />
+                android:fontFamily="@font/typo_bold"
+                android:gravity="left"
+                android:text="Step by Step"
+                android:textSize="32sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_main_step"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
 
         </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
-
 
 
 </android.support.design.widget.CoordinatorLayout>

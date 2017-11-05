@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="marcoscampos.culinaria">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,8 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Details_">
-        </activity>
+        <activity android:name=".Details_"></activity>
     </application>
 
 </manifest>

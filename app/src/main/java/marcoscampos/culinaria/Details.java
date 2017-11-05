@@ -39,7 +39,7 @@ public class Details extends AppCompatActivity implements OnIngredientClick, OnS
 
     @AfterViews
     public void afterViews() {
-        if(reciper!=null) {
+        if (reciper != null) {
             prepareToolbar(reciper.getName());
             prepareRecyclerView();
         }
@@ -56,12 +56,12 @@ public class Details extends AppCompatActivity implements OnIngredientClick, OnS
         recyclerViewIngredient.setHasFixedSize(true);
         recyclerViewStep.setHasFixedSize(true);
 
-        adapterIngredients = new IngredientsAdapter(reciper.getIngredientsList(), this,this);
+        adapterIngredients = new IngredientsAdapter(reciper.getIngredientsList(), this, this);
         recyclerViewIngredient.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewIngredient.setAdapter(adapterIngredients);
         recyclerViewIngredient.setNestedScrollingEnabled(false);
 
-        adapterSteps = new StepsAdapter(reciper.getStepsList(), this,this);
+        adapterSteps = new StepsAdapter(reciper.getStepsList(), this, this);
         recyclerViewStep.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewStep.setAdapter(adapterSteps);
         recyclerViewStep.setNestedScrollingEnabled(false);
