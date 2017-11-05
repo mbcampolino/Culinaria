@@ -1,6 +1,7 @@
 package marcoscampos.culinaria;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     GridLayoutManager grid;
     List<PageResult> result = new ArrayList<>();
     MainAdapter adapter;
-
+    RecyclerView.ItemDecoration decoration;
+    boolean tabletSize;
     @AfterViews
     public void afterViews() {
         prepareToolbar();
@@ -55,15 +57,28 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void prepareRecyclerView() {
+        int valueInPixels = (int) getResources().getDimension(R.dimen.margin_card);
+        tabletSize = getResources().getBoolean(R.bool.isTablet);
+        decoration = new Utils.SpacesItemDecoration(valueInPixels,this,tabletSize);
         recyclerView.setHasFixedSize(true);
-        grid = new GridLayoutManager(this, 1);
+        if(tabletSize) {
+            grid = new GridLayoutManager(this, 3);
+        } else {
+            grid = new GridLayoutManager(this, 1);
+        }
+
         adapter = new MainAdapter(result, this, this);
         recyclerView.setLayoutManager(grid);
         recyclerView.setAdapter(adapter);
         refreshLayout.setOnRefreshListener(this);
-        int valueInPixels = (int) getResources().getDimension(R.dimen.margin_card);
-        recyclerView.addItemDecoration(new Utils.SpacesItemDecoration(valueInPixels));
+        updateList();
     }
+
+    private void updateList() {
+        recyclerView.removeItemDecoration(decoration);
+        recyclerView.addItemDecoration(decoration);
+    }
+
 
     public void loadRecipes() {
 
@@ -107,6 +122,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }
             }
         }.execute();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            grid.setSpanCount(3);
+            updateList();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if(!tabletSize) {
+                grid.setSpanCount(1);
+            }
+
+            updateList();
+        }
     }
 
     @Override

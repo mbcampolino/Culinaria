@@ -6,5 +6,6 @@
     <string name="step_by_step">Step by Step</string>
     <string name="instructions">Instructions</string>
 
+    <bool name="isTablet">false</bool>
 
 </resources>

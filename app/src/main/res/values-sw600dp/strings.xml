@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Culinaire</string>
+    <bool name="isTablet">true</bool>
+
+</resources>

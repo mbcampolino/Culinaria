@@ -1,6 +1,9 @@
 package marcoscampos.culinaria;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,11 +14,29 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.TransferListener;
+import com.google.android.exoplayer2.util.Util;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,6 +49,7 @@ import marcoscampos.culinaria.interfaces.OnIngredientClick;
 import marcoscampos.culinaria.interfaces.OnStepClick;
 import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
+import marcoscampos.culinaria.pojos.Steps;
 
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
 import static marcoscampos.culinaria.utils.Utils.noTitleBar;
@@ -58,14 +80,28 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
 
     @ViewById(R.id.image_collapsed)
     ImageView imageTop;
-
+    boolean tabletSize;
     boolean favoriteRecipe;
+    @ViewById(R.id.tx_instructions)
+    TextView txInstructions;
+    @ViewById(R.id.video_view)
+    SimpleExoPlayerView videoView;
+    SimpleExoPlayer exoPlayerFactory;
+    Dialog mFullScreenDialog;
+    boolean mExoPlayerFullscreen;
+    private DataSource.Factory mediaDataSourceFactory;
+    private BandwidthMeter bandwidthMeter;
+    int position = 0;
 
     @AfterViews
     public void afterViews() {
+        videoView.requestLayout();
+        tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (reciper != null) {
             prepareToolbar(reciper.getName());
             prepareRecyclerView();
+            updateViews(position);
+            initFullscreenDialog();
         }
     }
 
@@ -94,6 +130,36 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         recyclerViewStep.setNestedScrollingEnabled(false);
     }
 
+    private void initializeVideo(Steps stepInPosition) {
+        videoView.setVisibility(View.VISIBLE);
+        bandwidthMeter = new DefaultBandwidthMeter();
+        mediaDataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "culinaire"), (TransferListener<? super DataSource>) bandwidthMeter);
+        TrackSelection.Factory videoTrackSelectionFactory =
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
+
+        DefaultTrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+
+        exoPlayerFactory = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+
+        videoView.setPlayer(exoPlayerFactory);
+
+        exoPlayerFactory.setPlayWhenReady(false);
+        DefaultExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(stepInPosition.getVideoURL()),
+                mediaDataSourceFactory, extractorsFactory, null, null);
+
+        exoPlayerFactory.prepare(mediaSource);
+    }
+
+    private Steps findStepInPosition(int position) {
+        if (!reciper.getStepsList().get(position).getVideoURL().isEmpty()) {
+            return reciper.getStepsList().get(position);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
@@ -119,6 +185,37 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         }
     }
 
+    private void initFullscreenDialog() {
+
+        mFullScreenDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            public void onBackPressed() {
+                if (mExoPlayerFullscreen)
+                    finish();
+                super.onBackPressed();
+            }
+        };
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            openFullscreenDialog();
+        }
+    }
+
+    private void openFullscreenDialog() {
+
+        ((ViewGroup) videoView.getParent()).removeView(videoView);
+        mFullScreenDialog.addContentView(videoView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mExoPlayerFullscreen = true;
+        mFullScreenDialog.show();
+    }
+
+    private void closeFullscreenDialog() {
+
+        ((ViewGroup) videoView.getParent()).removeView(videoView);
+        ((FrameLayout) findViewById(R.id.main_media_frame)).addView(videoView);
+        mExoPlayerFullscreen = false;
+        mFullScreenDialog.dismiss();
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -127,15 +224,66 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
 
     @Override
     public void onIngredientClick(Ingredient item) {
-        Toast.makeText(this, item.getIngredient(), Toast.LENGTH_SHORT).show();
+        return;
     }
 
     @Override
     public void onStepClick(int position) {
-        /// abre tela video com decricao
-        Intent intent = new Intent(this, StepWithVideoActivity_.class);
-        intent.putExtra("position", position);
-        intent.putExtra("reciper", reciper);
-        startActivity(intent);
+
+        if (!tabletSize) {
+            Intent intent = new Intent(this, StepWithVideoActivity_.class);
+            intent.putExtra("position", position);
+            intent.putExtra("reciper", reciper);
+            startActivity(intent);
+        } else {
+            updateViews(position);
+        }
+    }
+
+    private void updateViews(int position) {
+        this.position = position;
+        txInstructions.setText(reciper.getStepsList().get(position).getDescription());
+
+        releasePlayer();
+        if (findStepInPosition(position) != null) {
+            initializeVideo(findStepInPosition(position));
+        } else {
+            videoView.setVisibility(View.GONE);
+        }
+    }
+
+    private void releasePlayer() {
+        if (exoPlayerFactory != null) {
+            exoPlayerFactory.release();
+            exoPlayerFactory = null;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if ((Util.SDK_INT <= 23 || exoPlayerFactory == null)) {
+            if (findStepInPosition(position) != null) {
+                initializeVideo(findStepInPosition(position));
+            } else {
+                videoView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 }
