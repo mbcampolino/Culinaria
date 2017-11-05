@@ -1,12 +1,19 @@
 package marcoscampos.culinaria;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -63,6 +70,8 @@ public class StepWithVideoActivity extends AppCompatActivity  {
     private BandwidthMeter bandwidthMeter;
 
     int maxSteps;
+    Dialog mFullScreenDialog;
+    boolean mExoPlayerFullscreen;
 
     @AfterViews
     public void afterViews() {
@@ -70,6 +79,7 @@ public class StepWithVideoActivity extends AppCompatActivity  {
         maxSteps = reciper.getStepsList().size();
         prepareToolbar(reciper.getName());
         updateViews(position);
+        initFullscreenDialog();
     }
     private void prepareToolbar(String reciperTitle) {
         setSupportActionBar(toolbar);
@@ -77,6 +87,37 @@ public class StepWithVideoActivity extends AppCompatActivity  {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         titleToolbar.setText(reciperTitle);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void initFullscreenDialog() {
+
+        mFullScreenDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            public void onBackPressed() {
+                if (mExoPlayerFullscreen)
+                    finish();
+                super.onBackPressed();
+            }
+        };
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            openFullscreenDialog();
+        }
+    }
+
+    private void openFullscreenDialog() {
+
+        ((ViewGroup) videoView.getParent()).removeView(videoView);
+        mFullScreenDialog.addContentView(videoView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mExoPlayerFullscreen = true;
+        mFullScreenDialog.show();
+    }
+
+    private void closeFullscreenDialog() {
+
+        ((ViewGroup) videoView.getParent()).removeView(videoView);
+        ((FrameLayout) findViewById(R.id.main_media_frame)).addView(videoView);
+        mExoPlayerFullscreen = false;
+        mFullScreenDialog.dismiss();
     }
 
 
@@ -97,6 +138,20 @@ public class StepWithVideoActivity extends AppCompatActivity  {
             videoView.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if(!mExoPlayerFullscreen){
+                openFullscreenDialog();
+            }
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(mExoPlayerFullscreen){
+                closeFullscreenDialog();
+            }
+        }
     }
 
     @Click (R.id.btn_next)
