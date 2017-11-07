@@ -152,12 +152,12 @@
 
             </LinearLayout>
 
-            <include
-                layout="@layout/include_video_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
         </android.support.v4.widget.NestedScrollView>
+
+        <include
+            layout="@layout/include_video_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

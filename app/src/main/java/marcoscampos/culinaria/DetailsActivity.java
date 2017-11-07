@@ -100,7 +100,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
             prepareToolbar(reciper.getName());
             prepareRecyclerView();
             if(tabletSize) {
-                videoView.requestLayout();
+                //videoView.requestLayout();
                 updateViews(position);
                 initFullscreenDialog();
             }
