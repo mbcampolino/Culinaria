@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -150,5 +151,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         Intent intent = new Intent(this, DetailsActivity_.class);
         intent.putExtra("reciper", item);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFavoriteClick(PageResult item, boolean isFavorite) {
+        if(isFavorite) {
+            Toast.makeText(this, "Favoritado", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Removido", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

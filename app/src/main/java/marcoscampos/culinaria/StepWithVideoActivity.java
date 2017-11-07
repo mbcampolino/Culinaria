@@ -34,6 +34,7 @@ import org.androidannotations.annotations.ViewById;
 
 import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 @EActivity(R.layout.video_view_activity)
 public class StepWithVideoActivity extends AppCompatActivity {
@@ -45,9 +46,9 @@ public class StepWithVideoActivity extends AppCompatActivity {
     @ViewById(R.id.video_view)
     SimpleExoPlayerView videoView;
     @ViewById(R.id.btn_next)
-    TextView btnNext;
+    FancyButton btnNext;
     @ViewById(R.id.btn_preview)
-    TextView btnPreviews;
+    FancyButton btnPreviews;
     @ViewById(R.id.tx_instructions)
     TextView txInstructions;
     @ViewById(R.id.toolbar)

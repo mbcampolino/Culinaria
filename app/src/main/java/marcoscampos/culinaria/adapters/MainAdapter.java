@@ -1,10 +1,12 @@
 package marcoscampos.culinaria.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -71,19 +73,35 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView imageMovie;
         TextView title;
         TextView serving;
+        ImageButton btnLike;
 
         public ItemHolder(View itemView) {
             super(itemView);
             imageMovie = (ImageView) itemView.findViewById(R.id.image_receita);
             title = (TextView) itemView.findViewById(R.id.txtitle);
             serving = (TextView) itemView.findViewById(R.id.txrendiment);
+            btnLike = (ImageButton) itemView.findViewById(R.id.img_like);
             itemView.setOnClickListener(this);
+            btnLike.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            recyclerClick.onItemClick(pagerAdapter.get(getAdapterPosition()));
+            if (v.getId() == R.id.img_like) {
+                recyclerClick.onFavoriteClick(pagerAdapter.get(getAdapterPosition()),isFav(pagerAdapter.get(getAdapterPosition()).getId(),v));
+            } else {
+                recyclerClick.onItemClick(pagerAdapter.get(getAdapterPosition()));
+            }
+
         }
+    }
+
+    private boolean isFav(int id, View v) {
+        if (v instanceof ImageButton) {
+            v.setBackgroundResource(R.drawable.heart);
+            return true;
+        }
+        return false;
     }
 
 }

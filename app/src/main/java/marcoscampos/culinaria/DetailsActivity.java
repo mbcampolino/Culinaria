@@ -95,13 +95,15 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
 
     @AfterViews
     public void afterViews() {
-        videoView.requestLayout();
         tabletSize = getResources().getBoolean(R.bool.isTablet);
         if (reciper != null) {
             prepareToolbar(reciper.getName());
             prepareRecyclerView();
-            updateViews(position);
-            initFullscreenDialog();
+            if(tabletSize) {
+                videoView.requestLayout();
+                updateViews(position);
+                initFullscreenDialog();
+            }
         }
     }
 
@@ -253,7 +255,8 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     }
 
     private void releasePlayer() {
-        if (exoPlayerFactory != null) {
+
+        if (exoPlayerFactory != null && tabletSize) {
             exoPlayerFactory.release();
             exoPlayerFactory = null;
         }
@@ -262,11 +265,13 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     @Override
     public void onResume() {
         super.onResume();
-        if ((Util.SDK_INT <= 23 || exoPlayerFactory == null)) {
-            if (findStepInPosition(position) != null) {
-                initializeVideo(findStepInPosition(position));
-            } else {
-                videoView.setVisibility(View.GONE);
+        if(tabletSize) {
+            if (Util.SDK_INT <= 23 || exoPlayerFactory == null) {
+                if (findStepInPosition(position) != null) {
+                    initializeVideo(findStepInPosition(position));
+                } else {
+                    videoView.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -274,7 +279,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23) {
+        if (Util.SDK_INT <= 23 && tabletSize) {
             releasePlayer();
         }
     }
@@ -282,7 +287,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     @Override
     public void onStop() {
         super.onStop();
-        if (Util.SDK_INT > 23) {
+        if (Util.SDK_INT > 23 && tabletSize) {
             releasePlayer();
         }
     }

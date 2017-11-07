@@ -9,4 +9,5 @@ import marcoscampos.culinaria.pojos.PageResult;
 public interface OnRecyclerClick {
 
     void onItemClick(PageResult item);
+    void onFavoriteClick(PageResult item, boolean isFavorite);
 }
