@@ -6,10 +6,10 @@ No aplicativo sera possivel carregar uma lista de receitas e poder acompanhar co
 <b>Principais Bibliotecas usadas</b><br>
 glide - https://github.com/bumptech/glide<br>
 annotation - https://github.com/androidannotations/androidannotations<br>
-exoplayer - https://github.com/google/ExoPlayer
+exoplayer - https://github.com/google/ExoPlayer<br><br>
 
-[X] Usar o MediaPlayer/Exoplayer para mostrar vídeos
-[ ] Lidar com casos de erro no Android
-[ ] Adicionar um widget para a experiência do aplicativo
-[X] Alavancar uma biblioteca de terceiros em seu aplicativo
-[ ] Usar o Fragments para criar um design responsivo que funciona em telefones e tablets
+[X] Usar o MediaPlayer/Exoplayer para mostrar vídeos<br>
+[ ] Lidar com casos de erro no Android<br>
+[ ] Adicionar um widget para a experiência do aplicativo<br>
+[X] Alavancar uma biblioteca de terceiros em seu aplicativo<br>
+[ ] Usar o Fragments para criar um design responsivo que funciona em telefones e tablets<br>
