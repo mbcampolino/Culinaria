@@ -1,8 +1,11 @@
 package marcoscampos.culinaria;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,9 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -44,12 +47,17 @@ import org.androidannotations.annotations.ViewById;
 
 import marcoscampos.culinaria.adapters.IngredientsAdapter;
 import marcoscampos.culinaria.adapters.StepsAdapter;
+import marcoscampos.culinaria.db.ReciperContract;
 import marcoscampos.culinaria.interfaces.OnIngredientClick;
 import marcoscampos.culinaria.interfaces.OnStepClick;
 import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
 
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_ID;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_IMAGE;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_NAME;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_SERVINGS;
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
 import static marcoscampos.culinaria.utils.Utils.noTitleBar;
 
@@ -91,6 +99,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     int position = 0;
     private DataSource.Factory mediaDataSourceFactory;
     private BandwidthMeter bandwidthMeter;
+    private boolean startfavorite;
 
     @AfterViews
     public void afterViews() {
@@ -162,6 +171,19 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem mi = menu.findItem(R.id.likert_button_menu);
+        if (isFav(reciper.getId())) {
+            startfavorite = true;
+            mi.setIcon(ContextCompat.getDrawable(this, R.drawable.heart));
+        } else {
+            startfavorite = false;
+            mi.setIcon(ContextCompat.getDrawable(this, R.drawable.heart_outline));
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return super.onCreateOptionsMenu(menu);
@@ -177,12 +199,11 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     }
 
     private void favoriteRecipe(MenuItem item) {
-        // fake
-        favoriteRecipe = !favoriteRecipe;
-        if (favoriteRecipe) {
-            item.setIcon(ContextCompat.getDrawable(this, R.drawable.heart));
+
+        if (!isFav(reciper.getId())) {
+            addFav(item);
         } else {
-            item.setIcon(ContextCompat.getDrawable(this, R.drawable.heart_outline));
+            removeFav(item);
         }
     }
 
@@ -209,18 +230,17 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         mFullScreenDialog.show();
     }
 
-    private void closeFullscreenDialog() {
-
-        ((ViewGroup) videoView.getParent()).removeView(videoView);
-        ((FrameLayout) findViewById(R.id.main_media_frame)).addView(videoView);
-        mExoPlayerFullscreen = false;
-        mFullScreenDialog.dismiss();
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        if (isFav(reciper.getId()) == startfavorite) {
+            onBackPressed();
+            return true;
+        } else {
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnIntent);
+            onBackPressed();
+            return true;
+        }
     }
 
     @Override
@@ -288,6 +308,48 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         super.onStop();
         if (Util.SDK_INT > 23 && tabletSize) {
             releasePlayer();
+        }
+    }
+
+    private boolean addFav(MenuItem menuItem) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ID, reciper.getId());
+        cv.put(COLUMN_NAME, reciper.getName());
+        cv.put(COLUMN_SERVINGS, reciper.getServings());
+        cv.put(COLUMN_IMAGE, reciper.getImage());
+
+        Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
+        if (uri != null) {
+            Toast.makeText(this, "Favoritado", Toast.LENGTH_SHORT).show();
+            menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.heart));
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public void removeFav(MenuItem menuItem) {
+        String stringId = Integer.toString(reciper.getId());
+        Uri uri = ReciperContract.ReciperEntry.CONTENT_URI;
+        uri = uri.buildUpon().appendPath(stringId).build();
+        getContentResolver().delete(uri, null, null);
+        Toast.makeText(this, "Removido", Toast.LENGTH_SHORT).show();
+        menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.heart_outline));
+    }
+
+    public boolean isFav(int id) {
+
+        Cursor c = getContentResolver().query(ReciperContract.ReciperEntry.CONTENT_URI,
+                null,
+                ReciperContract.ReciperEntry.COLUMN_ID + "=" + id,
+                null,
+                null);
+
+        if (c.getCount() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

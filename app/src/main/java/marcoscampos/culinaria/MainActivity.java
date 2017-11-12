@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void loadRecipes() {
 
+        adapter.clear();
+
         new AsyncTask<String, String, ArrayList<PageResult>>() {
 
             @Override
@@ -160,7 +162,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onItemClick(PageResult item) {
         Intent intent = new Intent(this, DetailsActivity_.class);
         intent.putExtra("reciper", item);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            loadRecipes();
+        }
     }
 
     @Override
