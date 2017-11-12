@@ -1,7 +1,6 @@
 package marcoscampos.culinaria.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Rect;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
 
@@ -97,12 +95,13 @@ public class Utils {
     }
 
     public static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-        Activity c;
         public static final int ORIENTATION_LANDSCAPE = 2;
         public static final int ORIENTATION_PORTRAIT = 1;
+        Activity c;
         boolean isTablet = false;
-        public SpacesItemDecoration(int space, Activity c,  boolean isTablet) {
+        private int space;
+
+        public SpacesItemDecoration(int space, Activity c, boolean isTablet) {
             this.space = space;
             this.c = c;
             this.isTablet = isTablet;
@@ -111,14 +110,14 @@ public class Utils {
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-            if(isTablet) {
+            if (isTablet) {
                 if (parent.getChildLayoutPosition(view) == 0 || parent.getChildLayoutPosition(view) == 1 || parent.getChildLayoutPosition(view) == 2) {
                     outRect.top = space;
                 }
                 return;
             }
 
-            if(c.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+            if (c.getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
                 if (parent.getChildLayoutPosition(view) == 0) {
                     outRect.top = space;
                 }

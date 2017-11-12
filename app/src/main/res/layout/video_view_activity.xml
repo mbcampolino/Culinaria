@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <include layout="@layout/include_video_desc"/>
+        <include layout="@layout/include_video_desc" />
 
     </android.support.v4.widget.NestedScrollView>
 
@@ -50,6 +50,7 @@
             android:id="@+id/btn_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:enabled="false"
             android:text="PREVIEW"
@@ -58,13 +59,13 @@
             fancy:fb_defaultColor="@color/colorPrimary"
             fancy:fb_focusColor="@color/colorPrimaryDark"
             fancy:fb_radius="30dp"
-            fancy:fb_textColor="#202020"
-            android:layout_marginRight="8dp"/>
+            fancy:fb_textColor="#202020" />
 
         <mehdi.sakout.fancybuttons.FancyButton
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:text="NEXT"
             fancy:fb_borderColor="@color/colorPrimaryDark"
@@ -72,8 +73,7 @@
             fancy:fb_defaultColor="@color/colorPrimary"
             fancy:fb_focusColor="@color/colorPrimaryDark"
             fancy:fb_radius="30dp"
-            fancy:fb_textColor="#202020"
-            android:layout_marginLeft="8dp"/>
+            fancy:fb_textColor="#202020" />
 
     </LinearLayout>
 

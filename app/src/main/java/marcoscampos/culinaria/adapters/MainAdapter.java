@@ -1,7 +1,7 @@
 package marcoscampos.culinaria.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import marcoscampos.culinaria.R;
+import marcoscampos.culinaria.db.ReciperContract;
 import marcoscampos.culinaria.interfaces.OnRecyclerClick;
 import marcoscampos.culinaria.pojos.PageResult;
 
@@ -60,6 +61,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             PageResult recipe = pagerAdapter.get(position);
             item.title.setText(recipe.getName());
             item.serving.setText(String.format("Serve %s pessoas ", recipe.getServings()));
+            isFav(recipe.getId(), item.btnLike);
             Glide.with(context).load(getThumbnailFromRecipe(recipe)).thumbnail(0.1f).into(item.imageMovie);
         }
     }
@@ -67,6 +69,23 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         return pagerAdapter.size();
+    }
+
+    public boolean isFav(int id, View v) {
+
+        Cursor c = context.getContentResolver().query(ReciperContract.ReciperEntry.CONTENT_URI,
+                null,
+                ReciperContract.ReciperEntry.COLUMN_ID + "=" + id,
+                null,
+                null);
+
+        if (c.getCount() > 0) {
+            v.setBackgroundResource(R.drawable.heart);
+            return true;
+        } else {
+            v.setBackgroundResource(R.drawable.heart_outline);
+            return false;
+        }
     }
 
     public class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -88,20 +107,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.img_like) {
-                recyclerClick.onFavoriteClick(pagerAdapter.get(getAdapterPosition()),isFav(pagerAdapter.get(getAdapterPosition()).getId(),v));
+                recyclerClick.onFavoriteClick(pagerAdapter.get(getAdapterPosition()), isFav(pagerAdapter.get(getAdapterPosition()).getId(), v), (ImageButton) v);
             } else {
                 recyclerClick.onItemClick(pagerAdapter.get(getAdapterPosition()));
             }
 
         }
     }
-
-    private boolean isFav(int id, View v) {
-        if (v instanceof ImageButton) {
-            v.setBackgroundResource(R.drawable.heart);
-            return true;
-        }
-        return false;
-    }
-
 }

@@ -1,5 +1,7 @@
 package marcoscampos.culinaria.interfaces;
 
+import android.widget.ImageButton;
+
 import marcoscampos.culinaria.pojos.PageResult;
 
 /**
@@ -9,5 +11,6 @@ import marcoscampos.culinaria.pojos.PageResult;
 public interface OnRecyclerClick {
 
     void onItemClick(PageResult item);
-    void onFavoriteClick(PageResult item, boolean isFavorite);
+
+    void onFavoriteClick(PageResult item, boolean isFavorite, ImageButton v);
 }

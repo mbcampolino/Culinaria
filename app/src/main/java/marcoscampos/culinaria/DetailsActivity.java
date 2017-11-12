@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -89,9 +88,9 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     SimpleExoPlayer exoPlayerFactory;
     Dialog mFullScreenDialog;
     boolean mExoPlayerFullscreen;
+    int position = 0;
     private DataSource.Factory mediaDataSourceFactory;
     private BandwidthMeter bandwidthMeter;
-    int position = 0;
 
     @AfterViews
     public void afterViews() {
@@ -99,7 +98,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         if (reciper != null) {
             prepareToolbar(reciper.getName());
             prepareRecyclerView();
-            if(tabletSize) {
+            if (tabletSize) {
                 //videoView.requestLayout();
                 updateViews(position);
                 initFullscreenDialog();
@@ -265,7 +264,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     @Override
     public void onResume() {
         super.onResume();
-        if(tabletSize) {
+        if (tabletSize) {
             if (Util.SDK_INT <= 23 || exoPlayerFactory == null) {
                 if (findStepInPosition(position) != null) {
                     initializeVideo(findStepInPosition(position));
