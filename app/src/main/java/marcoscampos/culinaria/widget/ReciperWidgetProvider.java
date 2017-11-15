@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import marcoscampos.culinaria.R;
@@ -18,11 +19,12 @@ public class ReciperWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-            for(int appWidgetId : appWidgetIds) {
-                RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                        R.layout.layout_widget);
-                appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-            }
+        context.startService(new Intent(context, WidgetIntentService.class));
+    }
+
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        context.startService(new Intent(context, WidgetIntentService.class));
     }
 
     @Override
