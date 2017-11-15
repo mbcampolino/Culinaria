@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -19,6 +20,7 @@ import marcoscampos.culinaria.db.ReciperContract;
 import marcoscampos.culinaria.interfaces.OnRecyclerClick;
 import marcoscampos.culinaria.pojos.PageResult;
 
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_INGREDIENTS;
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
 
 /**
@@ -79,11 +81,18 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 null,
                 null);
 
-        if (c.getCount() > 0) {
+        if (c.moveToFirst()){
+            do{
+                String data = c.getString(c.getColumnIndex(COLUMN_INGREDIENTS));
+            }while(c.moveToNext());
             v.setBackgroundResource(R.drawable.heart);
+            c.close();
             return true;
-        } else {
+        }
+        else
+        {
             v.setBackgroundResource(R.drawable.heart_outline);
+            c.close();
             return false;
         }
     }

@@ -39,6 +39,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -56,6 +58,7 @@ import marcoscampos.culinaria.pojos.Steps;
 
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_ID;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_IMAGE;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_INGREDIENTS;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_NAME;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_SERVINGS;
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
@@ -317,6 +320,9 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         cv.put(COLUMN_NAME, reciper.getName());
         cv.put(COLUMN_SERVINGS, reciper.getServings());
         cv.put(COLUMN_IMAGE, reciper.getImage());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(reciper.getIngredientsList());
+        cv.put(COLUMN_INGREDIENTS, json);
 
         Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
         if (uri != null) {

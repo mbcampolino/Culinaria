@@ -17,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -32,13 +35,12 @@ import marcoscampos.culinaria.utils.Utils;
 
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_ID;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_IMAGE;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_INGREDIENTS;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_NAME;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_SERVINGS;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, OnRecyclerClick {
-
-    private static final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
     @ViewById(R.id.title_toolbar)
     TextView titleToolbar;
@@ -188,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cv.put(COLUMN_NAME, reciper.getName());
         cv.put(COLUMN_SERVINGS, reciper.getServings());
         cv.put(COLUMN_IMAGE, reciper.getImage());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(reciper.getIngredientsList());
+        cv.put(COLUMN_INGREDIENTS, json);
 
         Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
         if (uri != null) {

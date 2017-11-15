@@ -1,8 +1,11 @@
 package marcoscampos.culinaria.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import marcoscampos.culinaria.R;
@@ -15,12 +18,15 @@ public class ReciperWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int count = appWidgetIds.length;
-        for (int i = 0; i < count; i++) {
-            int widgetId = appWidgetIds[i];
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-                    R.layout.layout_widget);
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
-        }
+            for(int appWidgetId : appWidgetIds) {
+                RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+                        R.layout.layout_widget);
+                appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
     }
 }
