@@ -1,5 +1,6 @@
 package marcoscampos.culinaria;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -38,7 +39,9 @@ import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_IMAG
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_INGREDIENTS;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_NAME;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_SERVINGS;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_STEPS;
 
+@SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, OnRecyclerClick {
 
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     public void loadRecipes() {
 
         adapter.clear();
@@ -191,9 +195,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         cv.put(COLUMN_SERVINGS, reciper.getServings());
         cv.put(COLUMN_IMAGE, reciper.getImage());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(reciper.getIngredientsList());
-        cv.put(COLUMN_INGREDIENTS, json);
-
+        String jsonIngredients = gson.toJson(reciper.getIngredientsList());
+        String jsonSteps = gson.toJson(reciper.getIngredientsList());
+        cv.put(COLUMN_INGREDIENTS, jsonIngredients);
+        cv.put(COLUMN_STEPS, jsonSteps);
         Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
         if (uri != null) {
             v.setBackgroundResource(R.drawable.heart);

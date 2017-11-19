@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -81,16 +80,14 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 null,
                 null);
 
-        if (c.moveToFirst()){
-            do{
+        if (c.moveToFirst()) {
+            do {
                 String data = c.getString(c.getColumnIndex(COLUMN_INGREDIENTS));
-            }while(c.moveToNext());
+            } while (c.moveToNext());
             v.setBackgroundResource(R.drawable.heart);
             c.close();
             return true;
-        }
-        else
-        {
+        } else {
             v.setBackgroundResource(R.drawable.heart_outline);
             c.close();
             return false;

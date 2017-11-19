@@ -1,5 +1,6 @@
 package marcoscampos.culinaria;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
 import mehdi.sakout.fancybuttons.FancyButton;
 
+@SuppressLint("Registered")
 @EActivity(R.layout.video_view_activity)
 public class StepWithVideoActivity extends AppCompatActivity {
 
@@ -60,8 +62,6 @@ public class StepWithVideoActivity extends AppCompatActivity {
     int maxSteps;
     Dialog mFullScreenDialog;
     boolean mExoPlayerFullscreen;
-    private DataSource.Factory mediaDataSourceFactory;
-    private BandwidthMeter bandwidthMeter;
 
     @AfterViews
     public void afterViews() {
@@ -157,8 +157,8 @@ public class StepWithVideoActivity extends AppCompatActivity {
 
     private void initializeVideo(Steps stepInPosition) {
         videoView.setVisibility(View.VISIBLE);
-        bandwidthMeter = new DefaultBandwidthMeter();
-        mediaDataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "culinaire"), (TransferListener<? super DataSource>) bandwidthMeter);
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        DataSource.Factory mediaDataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "culinaire"), (TransferListener<? super DataSource>) bandwidthMeter);
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveTrackSelection.Factory(bandwidthMeter);
 

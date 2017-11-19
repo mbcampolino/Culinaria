@@ -1,5 +1,6 @@
 package marcoscampos.culinaria;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -61,9 +62,11 @@ import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_IMAG
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_INGREDIENTS;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_NAME;
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_SERVINGS;
+import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_STEPS;
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
 import static marcoscampos.culinaria.utils.Utils.noTitleBar;
 
+@SuppressLint("Registered")
 @EActivity(R.layout.details)
 public class DetailsActivity extends AppCompatActivity implements OnIngredientClick, OnStepClick {
 
@@ -321,8 +324,10 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         cv.put(COLUMN_SERVINGS, reciper.getServings());
         cv.put(COLUMN_IMAGE, reciper.getImage());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(reciper.getIngredientsList());
-        cv.put(COLUMN_INGREDIENTS, json);
+        String jsonIngredients = gson.toJson(reciper.getIngredientsList());
+        String jsonSteps = gson.toJson(reciper.getIngredientsList());
+        cv.put(COLUMN_INGREDIENTS, jsonIngredients);
+        cv.put(COLUMN_STEPS, jsonSteps);
 
         Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
         if (uri != null) {
@@ -352,6 +357,7 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
                 null,
                 null);
 
+        assert c != null;
         if (c.getCount() > 0) {
             return true;
         } else {
