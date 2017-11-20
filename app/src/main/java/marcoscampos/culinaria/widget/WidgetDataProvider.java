@@ -82,7 +82,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     private void initData() {
         mCollection.clear();
 
-        Cursor c = mContext.getContentResolver().query(ReciperContract.ReciperEntry.CONTENT_URI,
+        Cursor c = mContext.getContentResolver().query(ReciperContract.CONTENT_URI,
                 null,
                 ReciperContract.ReciperEntry.COLUMN_ID + ">" + 0,
                 null,

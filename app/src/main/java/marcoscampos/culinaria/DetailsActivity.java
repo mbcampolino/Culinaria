@@ -94,7 +94,6 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     @ViewById(R.id.image_collapsed)
     ImageView imageTop;
     boolean tabletSize;
-    boolean favoriteRecipe;
     @ViewById(R.id.tx_instructions)
     TextView txInstructions;
     @ViewById(R.id.video_view)
@@ -105,7 +104,6 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
     int position = 0;
     private DataSource.Factory mediaDataSourceFactory;
     private BandwidthMeter bandwidthMeter;
-    private boolean startfavorite;
 
     @AfterViews
     public void afterViews() {
@@ -176,43 +174,6 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         }
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem mi = menu.findItem(R.id.likert_button_menu);
-        if (isFav(reciper.getId())) {
-            startfavorite = true;
-            mi.setIcon(ContextCompat.getDrawable(this, R.drawable.heart));
-        } else {
-            startfavorite = false;
-            mi.setIcon(ContextCompat.getDrawable(this, R.drawable.heart_outline));
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.likert_button_menu) {
-            favoriteRecipe(item);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void favoriteRecipe(MenuItem item) {
-
-        if (!isFav(reciper.getId())) {
-            addFav(item);
-        } else {
-            removeFav(item);
-        }
-    }
-
     private void initFullscreenDialog() {
 
         mFullScreenDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
@@ -238,15 +199,8 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
 
     @Override
     public boolean onSupportNavigateUp() {
-        if (isFav(reciper.getId()) == startfavorite) {
-            onBackPressed();
-            return true;
-        } else {
-            Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK, returnIntent);
-            onBackPressed();
-            return true;
-        }
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -314,54 +268,6 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         super.onStop();
         if (Util.SDK_INT > 23 && tabletSize) {
             releasePlayer();
-        }
-    }
-
-    private boolean addFav(MenuItem menuItem) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_ID, reciper.getId());
-        cv.put(COLUMN_NAME, reciper.getName());
-        cv.put(COLUMN_SERVINGS, reciper.getServings());
-        cv.put(COLUMN_IMAGE, reciper.getImage());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonIngredients = gson.toJson(reciper.getIngredientsList());
-        String jsonSteps = gson.toJson(reciper.getIngredientsList());
-        cv.put(COLUMN_INGREDIENTS, jsonIngredients);
-        cv.put(COLUMN_STEPS, jsonSteps);
-
-        Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
-        if (uri != null) {
-            Toast.makeText(this, "Favoritado", Toast.LENGTH_SHORT).show();
-            menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.heart));
-            return true;
-        }
-
-        return false;
-
-    }
-
-    public void removeFav(MenuItem menuItem) {
-        String stringId = Integer.toString(reciper.getId());
-        Uri uri = ReciperContract.ReciperEntry.CONTENT_URI;
-        uri = uri.buildUpon().appendPath(stringId).build();
-        getContentResolver().delete(uri, null, null);
-        Toast.makeText(this, "Removido", Toast.LENGTH_SHORT).show();
-        menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.heart_outline));
-    }
-
-    public boolean isFav(int id) {
-
-        Cursor c = getContentResolver().query(ReciperContract.ReciperEntry.CONTENT_URI,
-                null,
-                ReciperContract.ReciperEntry.COLUMN_ID + "=" + id,
-                null,
-                null);
-
-        assert c != null;
-        if (c.getCount() > 0) {
-            return true;
-        } else {
-            return false;
         }
     }
 }

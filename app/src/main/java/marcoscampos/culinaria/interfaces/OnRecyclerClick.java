@@ -12,5 +12,4 @@ public interface OnRecyclerClick {
 
     void onItemClick(PageResult item);
 
-    void onFavoriteClick(PageResult item, boolean isFavorite, ImageButton v);
 }

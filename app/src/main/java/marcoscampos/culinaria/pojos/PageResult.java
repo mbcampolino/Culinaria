@@ -38,6 +38,12 @@ public class PageResult implements Parcelable {
     @SerializedName("image")
     private String image;
 
+    private int widget;
+
+    public PageResult() {
+
+    }
+
     protected PageResult(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -45,6 +51,39 @@ public class PageResult implements Parcelable {
         stepsList = in.createTypedArrayList(Steps.CREATOR);
         servings = in.readInt();
         image = in.readString();
+        widget = in.readInt();
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIngredientsList(ArrayList<Ingredient> ingredientsList) {
+        this.ingredientsList = ingredientsList;
+    }
+
+    public void setStepsList(ArrayList<Steps> stepsList) {
+        this.stepsList = stepsList;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setWidget(int i) {
+        this.widget = i;
+    }
+
+    public boolean isWidget () {
+        return this.widget == 1;
     }
 
     public int getId() {
@@ -88,5 +127,6 @@ public class PageResult implements Parcelable {
         parcel.writeTypedList(stepsList);
         parcel.writeInt(servings);
         parcel.writeString(image);
+        parcel.writeInt(widget);
     }
 }

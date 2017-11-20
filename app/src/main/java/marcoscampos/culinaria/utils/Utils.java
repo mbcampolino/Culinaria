@@ -1,7 +1,10 @@
 package marcoscampos.culinaria.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -153,6 +156,25 @@ public class Utils {
                 }
             };
         }
+    }
+
+
+    public static boolean isNetworkAvailable(Context context) {
+        int[] networkTypes = new int[] {ConnectivityManager.TYPE_ETHERNET,
+                ConnectivityManager.TYPE_MOBILE,
+                ConnectivityManager.TYPE_WIFI};
+        try {
+            ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            for (int networkType : networkTypes) {
+                NetworkInfo netInfo = cm.getNetworkInfo(networkType);
+                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 
 }
