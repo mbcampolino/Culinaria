@@ -16,9 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,7 +26,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         adapter.clear();
 
-        if(Utils.isNetworkAvailable(this)) {
+        if (Utils.isNetworkAvailable(this)) {
             new AsyncTask<String, String, ArrayList<PageResult>>() {
 
                 @Override
@@ -150,10 +147,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     }
                 }
             }.execute();
-        }
-        else {
+        } else {
             /// checa se tem cache
-            Cursor c = getContentResolver().query(ReciperContract.CONTENT_URI,null,null,null,null);
+            Cursor c = getContentResolver().query(ReciperContract.CONTENT_URI, null, null, null, null);
 
             ArrayList<PageResult> listCache = new ArrayList<>();
             if (c.moveToFirst()) {
@@ -170,11 +166,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                     pageResult.setId(id);
                     pageResult.setImage(image);
-                    ArrayList<Ingredient> listIngredients = new Gson().fromJson(ingredients, new TypeToken<ArrayList<Ingredient>>(){}.getType());
+                    ArrayList<Ingredient> listIngredients = new Gson().fromJson(ingredients, new TypeToken<ArrayList<Ingredient>>() {
+                    }.getType());
                     pageResult.setIngredientsList(listIngredients);
                     pageResult.setName(name);
                     pageResult.setServings(servings);
-                    ArrayList<Steps> stepsList = new Gson().fromJson(steps, new TypeToken<ArrayList<Steps>>(){}.getType());
+                    ArrayList<Steps> stepsList = new Gson().fromJson(steps, new TypeToken<ArrayList<Steps>>() {
+                    }.getType());
                     pageResult.setStepsList(stepsList);
                     pageResult.setWidget(widget);
 
@@ -233,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void addCache(ArrayList<PageResult> list) {
-        for(PageResult reciper : list) {
+        for (PageResult reciper : list) {
             ContentValues cv = new ContentValues();
             cv.put(COLUMN_ID, reciper.getId());
             cv.put(COLUMN_NAME, reciper.getName());

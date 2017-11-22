@@ -1,7 +1,5 @@
 package marcoscampos.culinaria.interfaces;
 
-import android.widget.ImageButton;
-
 import marcoscampos.culinaria.pojos.PageResult;
 
 /**

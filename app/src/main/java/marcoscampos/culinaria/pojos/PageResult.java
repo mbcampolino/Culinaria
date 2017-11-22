@@ -54,60 +54,60 @@ public class PageResult implements Parcelable {
         widget = in.readInt();
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setIngredientsList(ArrayList<Ingredient> ingredientsList) {
-        this.ingredientsList = ingredientsList;
-    }
-
-    public void setStepsList(ArrayList<Steps> stepsList) {
-        this.stepsList = stepsList;
-    }
-
-    public void setServings(int servings) {
-        this.servings = servings;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
+    public boolean isWidget() {
+        return this.widget == 1;
     }
 
     public void setWidget(int i) {
         this.widget = i;
     }
 
-    public boolean isWidget () {
-        return this.widget == 1;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<Ingredient> getIngredientsList() {
         return ingredientsList;
+    }
+
+    public void setIngredientsList(ArrayList<Ingredient> ingredientsList) {
+        this.ingredientsList = ingredientsList;
     }
 
     public List<Steps> getStepsList() {
         return stepsList;
     }
 
+    public void setStepsList(ArrayList<Steps> stepsList) {
+        this.stepsList = stepsList;
+    }
+
     public int getServings() {
         return servings;
     }
 
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
     public String getImage() {
         return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getVideoThumbnail() {

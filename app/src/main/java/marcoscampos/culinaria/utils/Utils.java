@@ -97,6 +97,24 @@ public class Utils {
         });
     }
 
+    public static boolean isNetworkAvailable(Context context) {
+        int[] networkTypes = new int[]{ConnectivityManager.TYPE_ETHERNET,
+                ConnectivityManager.TYPE_MOBILE,
+                ConnectivityManager.TYPE_WIFI};
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            for (int networkType : networkTypes) {
+                NetworkInfo netInfo = cm.getNetworkInfo(networkType);
+                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
     public static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         public static final int ORIENTATION_LANDSCAPE = 2;
         public static final int ORIENTATION_PORTRAIT = 1;
@@ -156,25 +174,6 @@ public class Utils {
                 }
             };
         }
-    }
-
-
-    public static boolean isNetworkAvailable(Context context) {
-        int[] networkTypes = new int[] {ConnectivityManager.TYPE_ETHERNET,
-                ConnectivityManager.TYPE_MOBILE,
-                ConnectivityManager.TYPE_WIFI};
-        try {
-            ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            for (int networkType : networkTypes) {
-                NetworkInfo netInfo = cm.getNetworkInfo(networkType);
-                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
     }
 
 }
