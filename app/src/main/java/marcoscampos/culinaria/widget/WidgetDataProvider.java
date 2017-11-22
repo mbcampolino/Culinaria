@@ -82,7 +82,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     private void initData() {
         mCollection.clear();
-        SharedPreferences preferences = mContext.getSharedPreferences("widgetpreferences",Context.MODE_PRIVATE);
+        SharedPreferences preferences = mContext.getSharedPreferences("widgetpreferences", Context.MODE_PRIVATE);
         if (preferences.getString("id_widget", null) != null) {
             String id = preferences.getString("id_widget", null);
             Cursor c = mContext.getContentResolver().query(ReciperContract.CONTENT_URI,
