@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DetailsActivity_"/>
+        <activity android:name=".DetailsActivity_" android:parentActivityName=".MainActivity_"/>
         <activity
             android:name=".StepWithVideoActivity_"
             android:configChanges="orientation|screenSize" />

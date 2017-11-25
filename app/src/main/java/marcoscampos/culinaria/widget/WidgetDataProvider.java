@@ -1,21 +1,27 @@
 package marcoscampos.culinaria.widget;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import marcoscampos.culinaria.DetailsActivity_;
+import marcoscampos.culinaria.MainActivity_;
+import marcoscampos.culinaria.R;
 import marcoscampos.culinaria.db.ReciperContract;
 import marcoscampos.culinaria.pojos.Ingredient;
+import marcoscampos.culinaria.pojos.PageResult;
+import marcoscampos.culinaria.pojos.Steps;
 
 /**
  * Created by Marcos on 19/11/2017.
@@ -24,7 +30,8 @@ import marcoscampos.culinaria.pojos.Ingredient;
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
     private static final String TAG = "WidgetDataProvider";
 
-    List<Ingredient> mCollection = new ArrayList<>();
+    //List<Ingredient> mCollection = new ArrayList<>();
+    PageResult pageResult ;
     Context mContext = null;
     Intent intent;
 
@@ -49,14 +56,21 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return mCollection.size();
+        return pageResult.getIngredientsList().size();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item_1);
-        view.setTextViewText(android.R.id.text1, mCollection.get(position).getIngredient());
+        view.setTextViewText(android.R.id.text1, String.format("%s %s %s",pageResult.getIngredientsList().get(position).getQuantity(),pageResult.getIngredientsList().get(position).getMeasure(),pageResult.getIngredientsList().get(position).getIngredient()));
+
+        Bundle extras = new Bundle();
+        extras.putParcelable("reciper",pageResult);
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtras(extras);
+        view.setOnClickFillInIntent(android.R.id.text1, fillInIntent);
+
         return view;
     }
 
@@ -81,13 +95,14 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
 
     private void initData() {
-        mCollection.clear();
+
+        pageResult = new PageResult();
         SharedPreferences preferences = mContext.getSharedPreferences("widgetpreferences", Context.MODE_PRIVATE);
         if (preferences.getString("id_widget", null) != null) {
-            String id = preferences.getString("id_widget", null);
+            String idPreference = preferences.getString("id_widget", null);
             Cursor c = mContext.getContentResolver().query(ReciperContract.CONTENT_URI,
                     null,
-                    ReciperContract.ReciperEntry.COLUMN_ID + "=" + id,
+                    ReciperContract.ReciperEntry.COLUMN_ID + "=" + idPreference,
                     null,
                     null);
             if (c == null) {
@@ -98,11 +113,23 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                 return;
             }
 
-            String jsonIngredients = c.getString(4);
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Ingredient>>() {
-            }.getType();
-            mCollection = gson.fromJson(jsonIngredients, listType);
+            int id = c.getInt(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_ID));
+            String image = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_IMAGE));
+            String ingredients = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_INGREDIENTS));
+            String name = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_NAME));
+            int servings = c.getInt(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_SERVINGS));
+            String steps = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_STEPS));
+
+            pageResult.setId(id);
+            pageResult.setImage(image);
+            ArrayList<Ingredient> listIngredients = new Gson().fromJson(ingredients, new TypeToken<ArrayList<Ingredient>>() {
+            }.getType());
+            pageResult.setIngredientsList(listIngredients);
+            pageResult.setName(name);
+            pageResult.setServings(servings);
+            ArrayList<Steps> stepsList = new Gson().fromJson(steps, new TypeToken<ArrayList<Steps>>() {
+            }.getType());
+            pageResult.setStepsList(stepsList);
         }
     }
 }
