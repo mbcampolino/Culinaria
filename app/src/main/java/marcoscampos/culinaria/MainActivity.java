@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     String name = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_NAME));
                     int servings = c.getInt(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_SERVINGS));
                     String steps = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_STEPS));
-                    int widget = c.getInt(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_WIDGET));
 
                     pageResult.setId(id);
                     pageResult.setImage(image);
@@ -174,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     ArrayList<Steps> stepsList = new Gson().fromJson(steps, new TypeToken<ArrayList<Steps>>() {
                     }.getType());
                     pageResult.setStepsList(stepsList);
-                    pageResult.setWidget(widget);
 
                     listCache.add(pageResult);
 

@@ -23,6 +23,5 @@ public class ReciperContract {
         public static final String COLUMN_IMAGE = "image";
         public static final String COLUMN_INGREDIENTS = "ingredients";
         public static final String COLUMN_STEPS = "steps";
-        public static final String COLUMN_WIDGET = "widget";
     }
 }
