@@ -18,5 +18,5 @@ exoplayer - https://github.com/google/ExoPlayer<br><br>
 [X] O aplicativo deve obter recursos de mídia dos links fornecidos de forma adequada e lidar com requisições de rede da maneira correta.<br>
 [X] Isso pode ser uma biblioteca auxiliar para interagir com o ContentProviders se você optar por armazenar as receitas, uma biblioteca de ligação à UI para evitar escrever findViewById diversas vezes, ou algo semelhante.<br>
 [X] O aplicativo possui um widget na tela inicial.<br>
-[ ] O widget exibe a lista de ingredientes da receita escolhida<br>
+[X] O widget exibe a lista de ingredientes da receita escolhida<br>
 [ ] O aplicativo usa o Espresso para testar os aspectos da UI.<br>
