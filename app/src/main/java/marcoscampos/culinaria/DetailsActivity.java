@@ -2,6 +2,9 @@ package marcoscampos.culinaria;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -49,6 +52,7 @@ import marcoscampos.culinaria.interfaces.OnStepClick;
 import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
 import marcoscampos.culinaria.pojos.Steps;
+import marcoscampos.culinaria.widget.ReciperWidgetProvider;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 import static marcoscampos.culinaria.utils.Utils.getThumbnailFromRecipe;
@@ -127,6 +131,16 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
             btnAddWidget.setText("remove widget");
             Snackbar.make(coordinatorLayout, "widget adicionado", Snackbar.LENGTH_SHORT).show();
         }
+
+        updateWidget();
+    }
+
+    private void updateWidget() {
+        Context context = getApplicationContext();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        ComponentName thisWidget = new ComponentName(context, ReciperWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_item);
     }
 
     private boolean checkIsWidget() {

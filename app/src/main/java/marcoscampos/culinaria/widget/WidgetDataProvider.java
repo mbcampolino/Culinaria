@@ -25,7 +25,6 @@ import marcoscampos.culinaria.pojos.Steps;
 public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
     private static final String TAG = "WidgetDataProvider";
 
-    //List<Ingredient> mCollection = new ArrayList<>();
     PageResult pageResult;
     Context mContext = null;
     Intent intent;
@@ -51,7 +50,11 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return pageResult.getIngredientsList().size();
+        if(pageResult!=null && pageResult.getIngredientsList() != null ) {
+            return pageResult.getIngredientsList().size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
