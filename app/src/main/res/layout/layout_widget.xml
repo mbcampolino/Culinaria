@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fff">
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:padding="16dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorPrimary" />
 
     <ListView
         android:id="@+id/list_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
-</FrameLayout>
+        android:layout_height="match_parent" />
+</LinearLayout>

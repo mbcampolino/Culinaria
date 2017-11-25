@@ -1,7 +1,5 @@
 package marcoscampos.culinaria.widget;
 
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,15 +7,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
-import marcoscampos.culinaria.DetailsActivity_;
-import marcoscampos.culinaria.MainActivity_;
-import marcoscampos.culinaria.R;
+import java.util.ArrayList;
+
 import marcoscampos.culinaria.db.ReciperContract;
 import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
@@ -31,7 +26,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     private static final String TAG = "WidgetDataProvider";
 
     //List<Ingredient> mCollection = new ArrayList<>();
-    PageResult pageResult ;
+    PageResult pageResult;
     Context mContext = null;
     Intent intent;
 
@@ -63,10 +58,9 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public RemoteViews getViewAt(int position) {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item_1);
-        view.setTextViewText(android.R.id.text1, String.format("%s %s %s",pageResult.getIngredientsList().get(position).getQuantity(),pageResult.getIngredientsList().get(position).getMeasure(),pageResult.getIngredientsList().get(position).getIngredient()));
-
+        view.setTextViewText(android.R.id.text1, String.format("%s %s %s", pageResult.getIngredientsList().get(position).getQuantity(), pageResult.getIngredientsList().get(position).getMeasure(), pageResult.getIngredientsList().get(position).getIngredient()));
         Bundle extras = new Bundle();
-        extras.putParcelable("reciper",pageResult);
+        extras.putParcelable("reciper", pageResult);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         view.setOnClickFillInIntent(android.R.id.text1, fillInIntent);
