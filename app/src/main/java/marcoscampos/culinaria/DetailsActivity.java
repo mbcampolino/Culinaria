@@ -169,12 +169,12 @@ public class DetailsActivity extends AppCompatActivity implements OnIngredientCl
         adapterIngredients = new IngredientsAdapter(reciper.getIngredientsList(), this, this);
         recyclerViewIngredient.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewIngredient.setAdapter(adapterIngredients);
-        recyclerViewIngredient.setNestedScrollingEnabled(true);
+        recyclerViewIngredient.setNestedScrollingEnabled(tabletSize);
 
         adapterSteps = new StepsAdapter(reciper.getStepsList(), this, this);
         recyclerViewStep.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewStep.setAdapter(adapterSteps);
-        recyclerViewStep.setNestedScrollingEnabled(true);
+        recyclerViewStep.setNestedScrollingEnabled(tabletSize);
     }
 
     private void initializeVideo(Steps stepInPosition) {

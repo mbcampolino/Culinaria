@@ -1,8 +1,18 @@
 package marcoscampos.culinaria.utils;
 
+import android.content.Context;
 import android.os.SystemClock;
+import android.support.test.InstrumentationRegistry;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
@@ -14,27 +24,17 @@ import marcoscampos.culinaria.pojos.Steps;
 
 public class TestUtils {
 
-    public static PageResult mockResult() {
-        PageResult reciper = new PageResult();
-        reciper.setId(0);
-        reciper.setName("TESTE");
-        reciper.setImage("http://teste.com");
-        reciper.setServings(8);
+    public static List<PageResult> mockResult(Context c) throws IOException {
 
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("150", "G", "INGREDIENT 1"));
-        ingredients.add(new Ingredient("1", "CUP", "INGREDIENT 2"));
-        ingredients.add(new Ingredient("5", "CUP", "INGREDIENT 3"));
-        ingredients.add(new Ingredient("200", "G", "INGREDIENT 4"));
-        reciper.setIngredientsList(ingredients);
-
-        ArrayList<Steps> steps = new ArrayList<>();
-        steps.add(new Steps(0, "short description 1", "description 1", "", ""));
-        steps.add(new Steps(1, "short description 2", "description 2", "teste", "teste"));
-        steps.add(new Steps(2, "short description 3", "description 3", "", ""));
-        steps.add(new Steps(3, "short description 4", "description 4", "teste", ""));
-        reciper.setStepsList(steps);
-
+        InputStream is = InstrumentationRegistry.getTargetContext().getAssets().open("baking.json");//c.getClassLoader().getResourceAsStream("assets/baking.json");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        StringBuilder sb = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String json = sb.toString();
+        List<PageResult> reciper = new Gson().fromJson(json, new TypeToken<List<PageResult>>(){}.getType());
         return reciper;
     }
 

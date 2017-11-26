@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import java.io.IOException;
+
 import marcoscampos.culinaria.utils.TestUtils;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
@@ -37,15 +39,19 @@ public class DetailActivityTest {
                     Context targetContext = getInstrumentation()
                             .getTargetContext();
                     Intent result = new Intent(targetContext, DetailsActivity_.class);
-                    result.putExtra("reciper", TestUtils.mockResult());
+                    try {
+                        result.putExtra("reciper", TestUtils.mockResult(mActivityRule.getActivity()).get(0));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     return result;
                 }
             };
 
     @Test
-    public void test_0_check_toolbar_name() {
+    public void test_0_check_toolbar_name() throws IOException {
         delay(1000);
-        String title = TestUtils.mockResult().getName();
+        String title = TestUtils.mockResult(mActivityRule.getActivity()).get(0).getName();
         onView(allOf(withId(R.id.title_toolbar), withText(title)));
     }
 
