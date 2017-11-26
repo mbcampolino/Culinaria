@@ -11,12 +11,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
-import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
-import marcoscampos.culinaria.pojos.Steps;
 
 /**
  * Created by Marcos on 25/11/2017.
@@ -34,7 +31,8 @@ public class TestUtils {
             sb.append(line);
         }
         String json = sb.toString();
-        List<PageResult> reciper = new Gson().fromJson(json, new TypeToken<List<PageResult>>(){}.getType());
+        List<PageResult> reciper = new Gson().fromJson(json, new TypeToken<List<PageResult>>() {
+        }.getType());
         return reciper;
     }
 
