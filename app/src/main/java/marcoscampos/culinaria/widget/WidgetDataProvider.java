@@ -50,7 +50,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        if(pageResult!=null && pageResult.getIngredientsList() != null ) {
+        if (pageResult != null && pageResult.getIngredientsList() != null) {
             return pageResult.getIngredientsList().size();
         } else {
             return 0;

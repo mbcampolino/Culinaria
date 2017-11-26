@@ -32,7 +32,7 @@ public class Ingredient implements Parcelable {
         ingredient = in.readString();
     }
 
-    public Ingredient(String quantity,String measure,String ingredient) {
+    public Ingredient(String quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;

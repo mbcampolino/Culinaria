@@ -42,7 +42,7 @@ public class Steps implements Parcelable {
         thumbnailURL = in.readString();
     }
 
-    public Steps(int id, String shortDescription,String description,String videoURL,String thumbnailURL) {
+    public Steps(int id, String shortDescription, String description, String videoURL, String thumbnailURL) {
         this.id = id;
         this.shortDescription = shortDescription;
         this.description = description;
