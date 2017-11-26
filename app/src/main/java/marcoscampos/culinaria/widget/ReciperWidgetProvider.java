@@ -1,11 +1,13 @@
 package marcoscampos.culinaria.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import marcoscampos.culinaria.DetailsActivity_;
 import marcoscampos.culinaria.R;
 
 /**
@@ -18,7 +20,11 @@ public class ReciperWidgetProvider extends AppWidgetProvider {
                                 int appWidgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.layout_widget);
         views.setRemoteAdapter(R.id.list_item, new Intent(context, WidgetService.class));
-        views.setEmptyView(R.id.list_item, R.drawable.recipeplaceholder);
+        Intent activityIntent = new Intent(context, DetailsActivity_.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId,
+                activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.list_item, pendingIntent);
+
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 

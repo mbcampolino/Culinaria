@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="78dp"
                     android:fontFamily="@font/font_toolbar"
                     android:gravity="center"
                     android:padding="8dp"
@@ -74,6 +74,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/rested"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
@@ -109,7 +110,7 @@
                     android:background="@color/colorPrimaryDark" />
 
                 <mehdi.sakout.fancybuttons.FancyButton
-                    android:id="@+id/btn_next"
+                    android:id="@+id/btn_add_widget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"

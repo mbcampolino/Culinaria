@@ -18,8 +18,8 @@ import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.TABLE_NAME;
 
 public class ReciperContentProvider extends ContentProvider {
 
-    public static final int RECIPES = 100;
-    public static final int RECIPES_WITH_ID = 101;
+    public static final int RECIPES = 1;
+    public static final int RECIPES_WITH_ID = 2;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     ReciperDbHelper dbHelper;
@@ -81,7 +81,7 @@ public class ReciperContentProvider extends ContentProvider {
             case RECIPES:
                 long id = db.insert(TABLE_NAME, null, values);
                 if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(ReciperContract.ReciperEntry.CONTENT_URI, id);
+                    returnUri = ContentUris.withAppendedId(ReciperContract.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -100,9 +100,8 @@ public class ReciperContentProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         int tasksDeleted;
         switch (match) {
-            case RECIPES_WITH_ID:
-                String id = uri.getPathSegments().get(1);
-                tasksDeleted = db.delete(TABLE_NAME, "id=?", new String[]{id});
+            case RECIPES:
+                tasksDeleted = db.delete(TABLE_NAME, "id>0", null);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

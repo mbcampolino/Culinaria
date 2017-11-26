@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,13 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -31,7 +32,9 @@ import java.util.List;
 import marcoscampos.culinaria.adapters.MainAdapter;
 import marcoscampos.culinaria.db.ReciperContract;
 import marcoscampos.culinaria.interfaces.OnRecyclerClick;
+import marcoscampos.culinaria.pojos.Ingredient;
 import marcoscampos.culinaria.pojos.PageResult;
+import marcoscampos.culinaria.pojos.Steps;
 import marcoscampos.culinaria.utils.Utils;
 
 import static marcoscampos.culinaria.db.ReciperContract.ReciperEntry.COLUMN_ID;
@@ -101,46 +104,92 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         adapter.clear();
 
-        new AsyncTask<String, String, ArrayList<PageResult>>() {
+        if (Utils.isNetworkAvailable(this)) {
+            new AsyncTask<String, String, ArrayList<PageResult>>() {
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                if (!refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(true);
-                }
-            }
-
-            @Override
-            protected ArrayList<PageResult> doInBackground(String... params) {
-                return Utils.getPageResult();
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<PageResult> list) {
-                super.onPostExecute(list);
-
-                if (refreshLayout.isRefreshing()) {
-                    refreshLayout.setRefreshing(false);
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    if (!refreshLayout.isRefreshing()) {
+                        refreshLayout.setRefreshing(true);
+                    }
                 }
 
-                if (list != null) {
-                    adapter.add(list);
-                } else {
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, getString(R.string.houveerro), Snackbar.LENGTH_INDEFINITE)
-                            .setAction(getString(R.string.sim), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    adapter.clear();
-                                    loadRecipes();
-                                }
-                            });
-
-                    snackbar.show();
+                @Override
+                protected ArrayList<PageResult> doInBackground(String... params) {
+                    return Utils.getPageResult();
                 }
+
+                @Override
+                protected void onPostExecute(ArrayList<PageResult> list) {
+                    super.onPostExecute(list);
+
+                    if (refreshLayout.isRefreshing()) {
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                    if (list != null) {
+                        adapter.add(list);
+                        clearCache();
+                        addCache(list);
+                    } else {
+                        Snackbar snackbar = Snackbar
+                                .make(coordinatorLayout, getString(R.string.houveerro), Snackbar.LENGTH_INDEFINITE)
+                                .setAction(getString(R.string.sim), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        adapter.clear();
+                                        loadRecipes();
+                                    }
+                                });
+
+                        snackbar.show();
+                    }
+                }
+            }.execute();
+        } else {
+            /// checa se tem cache
+            Cursor c = getContentResolver().query(ReciperContract.CONTENT_URI, null, null, null, null);
+
+            ArrayList<PageResult> listCache = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    PageResult pageResult = new PageResult();
+
+                    int id = c.getInt(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_ID));
+                    String image = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_IMAGE));
+                    String ingredients = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_INGREDIENTS));
+                    String name = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_NAME));
+                    int servings = c.getInt(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_SERVINGS));
+                    String steps = c.getString(c.getColumnIndex(ReciperContract.ReciperEntry.COLUMN_STEPS));
+
+                    pageResult.setId(id);
+                    pageResult.setImage(image);
+                    ArrayList<Ingredient> listIngredients = new Gson().fromJson(ingredients, new TypeToken<ArrayList<Ingredient>>() {
+                    }.getType());
+                    pageResult.setIngredientsList(listIngredients);
+                    pageResult.setName(name);
+                    pageResult.setServings(servings);
+                    ArrayList<Steps> stepsList = new Gson().fromJson(steps, new TypeToken<ArrayList<Steps>>() {
+                    }.getType());
+                    pageResult.setStepsList(stepsList);
+
+                    listCache.add(pageResult);
+
+                } while (c.moveToNext());
+                c.close();
+            } else {
+                c.close();
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, getString(R.string.houveerrosemcache), Snackbar.LENGTH_INDEFINITE);
+                snackbar.show();
             }
-        }.execute();
+
+            adapter.add(listCache);
+            if (refreshLayout.isRefreshing()) {
+                refreshLayout.setRefreshing(false);
+            }
+        }
     }
 
     @Override
@@ -179,43 +228,28 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
     }
 
-    @Override
-    public void onFavoriteClick(PageResult item, boolean isFavorite, ImageButton v) {
-        if (!isFavorite) {
-            addFav(item, v);
-        } else {
-            removeFav(item.getId(), v);
+    private void addCache(ArrayList<PageResult> list) {
+        for (PageResult reciper : list) {
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_ID, reciper.getId());
+            cv.put(COLUMN_NAME, reciper.getName());
+            cv.put(COLUMN_SERVINGS, reciper.getServings());
+            cv.put(COLUMN_IMAGE, reciper.getImage());
+            String jsonIngredients = new GsonBuilder().setPrettyPrinting().create().toJson(reciper.getIngredientsList());
+            String jsonSteps = new GsonBuilder().setPrettyPrinting().create().toJson(reciper.getStepsList());
+            cv.put(COLUMN_INGREDIENTS, jsonIngredients);
+            cv.put(COLUMN_STEPS, jsonSteps);
+            Uri uri = getContentResolver().insert(ReciperContract.CONTENT_URI, cv);
+            if (uri != null) {
+                Log.v("ADDCACHE", "SUCESS");
+            } else {
+                Log.v("ADDCACHE", "ERRO" + uri.getPath());
+            }
         }
     }
 
-    private boolean addFav(PageResult reciper, ImageButton v) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_ID, reciper.getId());
-        cv.put(COLUMN_NAME, reciper.getName());
-        cv.put(COLUMN_SERVINGS, reciper.getServings());
-        cv.put(COLUMN_IMAGE, reciper.getImage());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonIngredients = gson.toJson(reciper.getIngredientsList());
-        String jsonSteps = gson.toJson(reciper.getIngredientsList());
-        cv.put(COLUMN_INGREDIENTS, jsonIngredients);
-        cv.put(COLUMN_STEPS, jsonSteps);
-        Uri uri = getContentResolver().insert(ReciperContract.ReciperEntry.CONTENT_URI, cv);
-        if (uri != null) {
-            v.setBackgroundResource(R.drawable.heart);
-            Toast.makeText(this, "Favoritado", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return false;
-
-    }
-
-    public void removeFav(int id, ImageButton v) {
-        String stringId = Integer.toString(id);
-        Uri uri = ReciperContract.ReciperEntry.CONTENT_URI;
-        uri = uri.buildUpon().appendPath(stringId).build();
+    public void clearCache() {
+        Uri uri = ReciperContract.CONTENT_URI;
         getContentResolver().delete(uri, null, null);
-        Toast.makeText(this, "Removido", Toast.LENGTH_SHORT).show();
-        v.setBackgroundResource(R.drawable.heart_outline);
     }
 }

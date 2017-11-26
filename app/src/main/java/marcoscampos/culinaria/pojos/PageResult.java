@@ -38,6 +38,10 @@ public class PageResult implements Parcelable {
     @SerializedName("image")
     private String image;
 
+    public PageResult() {
+
+    }
+
     protected PageResult(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -51,24 +55,48 @@ public class PageResult implements Parcelable {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Ingredient> getIngredientsList() {
         return ingredientsList;
     }
 
+    public void setIngredientsList(ArrayList<Ingredient> ingredientsList) {
+        this.ingredientsList = ingredientsList;
+    }
+
     public List<Steps> getStepsList() {
         return stepsList;
+    }
+
+    public void setStepsList(ArrayList<Steps> stepsList) {
+        this.stepsList = stepsList;
     }
 
     public int getServings() {
         return servings;
     }
 
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
     public String getImage() {
         return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getVideoThumbnail() {

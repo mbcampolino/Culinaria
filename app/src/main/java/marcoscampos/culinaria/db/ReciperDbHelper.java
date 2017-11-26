@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ReciperDbHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "recipe.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final String DATABASE_NAME = "cache.db";
+    private static final int DATABASE_VERSION = 1;
 
     public ReciperDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
